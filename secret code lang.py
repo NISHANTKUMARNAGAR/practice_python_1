@@ -3,7 +3,7 @@ c='abcdefghijklmnopqrstuvwxyz'
 cl=list(c)
 t=input()
 a=t.split(' ')
-cd=input('tell me if you want to decode or encode ')
+cd=input('tell me what you want to decode or encode ')
 
 if(cd=="decode"):
     z=0
