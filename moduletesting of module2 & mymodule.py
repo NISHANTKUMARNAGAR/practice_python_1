@@ -3,12 +3,12 @@ import math
 import sys
 print('printing path')
 print(sys.path)
-from module2 import w as p
+#from module2 import w as p
 from mymodule import w as q
 def w():
    print('function in test')
 w()
-p()
+#p()
 q()
 #p()
 #print(v)
