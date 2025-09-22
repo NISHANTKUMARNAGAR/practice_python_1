@@ -58,6 +58,7 @@ c="ram$$$$$$$$$$"
 print(c.rstrip("$")) # remove any trailing character
 
 d="ram"
+print("printing d")
 print(d.replace("a","o"))
 
 e="nishant nagar"

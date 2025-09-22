@@ -1,5 +1,5 @@
 import os
-#n='f.txt'
+#n='o.txt'
 
 '''with open(n,'w') as file:
       file.write("hello")'''

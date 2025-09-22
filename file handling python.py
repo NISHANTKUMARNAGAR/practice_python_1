@@ -1,5 +1,5 @@
-#onpen('f.txt','x')
-n='f.txt'
+#onpen('o.txt','x')
+n='o.txt'
 
 #f=open(n,'w')
 #f.write('hello')
