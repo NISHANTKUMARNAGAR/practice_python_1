@@ -1,18 +1,18 @@
 #onpen('o.txt','x')
 n='o.txt'
 
-#f=open(n,'w')
-#f.write('hello')
+"""f=open(n,'w')
+f.write('hello')"""
 
-#f=open(n,'r')
-#print(f.read())
+"""f=open(n,'r')
+print(f.read())"""
 
-#f=open(n,'a')
-#f.write('world')
-#f.close()
+"""f=open(n,'a')
+f.write('world')
+f.close()"""
 
-#with open(n,'w') as p:
-#    p.write('hello world')
+"""with open(n,'w') as p:
+    p.write('hello world')"""
 
 """f=open(n,'r')
 c=f.readlines()
