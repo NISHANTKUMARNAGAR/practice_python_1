@@ -18,8 +18,8 @@ print(o.name)
 print(o.age)
 o.info()"""
 
-"""#decorator
-def greet(func):
+#decorator
+"""def greet(func):
     def modfunc(*args):
         print("hello")
         func(*args)
@@ -30,10 +30,33 @@ def greet(func):
 def add(a,b):
     print(a+b)
 
-add(1,2)"""
+print(add(1,2))"""
 
-"""#getter setter
-class myclass:
+#decorator when func is not modfied,but replaced
+"""def outer(f):
+    def modf(x,y):
+        print("hello")
+        print("world")
+    return modf
+
+#then
+
+@outer
+def add(a,b):
+    print(a+b)
+
+add(1,2)
+
+#or
+
+def add(a,b):
+    print(a+b)
+
+add=outer(add)
+add(1,3)"""
+
+#getter setter
+"""class myclass:
     def __init__(self,v):
         self.value=v
 
