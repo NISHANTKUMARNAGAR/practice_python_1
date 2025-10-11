@@ -14,6 +14,13 @@ text="the cat is in the hat"
 matches=re.findall(pattern,text)
 print(matches)"""
 
+#finditer() return a iterable of matchobjects
+"""pattern=r"[a-z]+at"
+text="cat in the hat"
+matches=re.finditer(pattern,text)
+for i in matches:
+    print(i.span(),i.group())"""
+
 #to replace
 """pattern=r"[a-z]+at" #([a-z] means any one character from a to z),(+ any characters after a to z is allowed),(at is matched after [a-z]+ in text)
 text="the cat is in the hat"
@@ -32,6 +39,25 @@ if match:
 """email_address = "contact@example.com"
 pattern = r'(\w+)@(\w+)\.(\w+)'
 match = re.search(pattern, email_address)
-
 if match:
     print(match.groups())"""
+
+#groupdict() returns a dictionary with groupname as keys
+"""pattern=r'(?P<Username>\w+)@(?P<Website>\w+)\.(?P<Domain>\w+)'
+text='jon@geekforgeeks.org'
+match_object = re.match(pattern,text)
+details = match_object.groupdict()
+print(details)"""
+
+#split() splits according to pattern
+"""text='Words,words,words.'
+print(re.split(r'\W+',text))
+print(re.split(r'(\W+)',text))
+print(re.split(r'\W+',text,maxsplit=1))"""
+
+#start() and end() end points of span()
+"""t="i love python"
+p=r'python'
+m=re.search(p,t)
+print(m.start())
+print(m.end())"""
