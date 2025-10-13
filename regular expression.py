@@ -61,3 +61,21 @@ p=r'python'
 m=re.search(p,t)
 print(m.start())
 print(m.end())"""
+
+#prog to find consecutive alphanumeric item
+"""import re
+pattern=r'[a-z]|[A-Z]|[0-9]'
+text=input()
+final=''
+for i in range(len(text)):
+    if(i!=(len(text)-1)):
+        p=re.match(pattern, text[i])
+        q=re.match(pattern, text[i+1])
+        if((p!=None) and (q!=None)):
+            if(p.group()==q.group()):
+                final=p.group()
+                break
+if(final!=''):
+  print(final)
+else:
+  print(-1)"""
