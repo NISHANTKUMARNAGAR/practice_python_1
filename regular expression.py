@@ -79,3 +79,74 @@ if(final!=''):
   print(final)
 else:
   print(-1)"""
+
+#to check for floating number
+"""import re
+pattern=r'^[+-]?[0-9]*\.[0-9]+$'
+n=int(input())
+l=[]
+
+for i in range(n):
+    text=input()
+    m=re.search(pattern,text)
+    if(m):
+      l.append(True)
+    else:
+      l.append(False)
+
+for t in l:
+    print(t)"""
+
+#to check for id size 10 containing non-repetitive alphanumeric characters
+"""import re
+
+def check(q): #for checking if no repetitions
+    flag= 0
+    for k in range(len(q)):
+        for j in range(len(q)):
+            if(q[k]==q[j]):
+                flag=flag+1
+
+    if(flag==10):
+        return True
+    else:
+        return False
+
+def finding(p,t): #for checking of only that range of characters
+    f=re.findall(p,t)
+    return f
+
+def nother(t): #for checking only alphanumeric characters
+    for z in t:
+        x=re.match(r'[a-zA-Z0-9]',z)
+        if(x==None):
+            return False
+
+    return True
+
+pattern1=r"[A-Z]"
+pattern2=r'[0-9]'
+pattern3=r'[a-z]'
+n=int(input())
+l=[]
+for i in range(n):
+    text=input()
+    if(len(text)==10 and nother(text) and check(text)):
+        m=finding(pattern1,text)
+        if(len(m)>=2 and len(m)<=7): #at least 2 uppercase
+            n=finding(pattern2,text)
+            if(len(n)>=3 and len(n)<=8): #at least 3 digits
+                o=finding(pattern3,text)
+                if(len(o)>=0 and len(o)<5): #only other remaining are smaller case
+                    l.append("valid ")
+                else:
+                    l.append("invalid")
+            else:
+                l.append("invalid")
+        else:
+            l.append("invalid")
+    else:
+        l.append("invalid")
+
+for i in range(len(l)):
+    print(l[i])"""
