@@ -80,6 +80,16 @@ if(final!=''):
 else:
   print(-1)"""
 
+"""import re
+text = "aB22ccZ7z"
+pattern = r'([a-zA-Z0-9])\1'
+match = re.search(pattern, text)
+if match:
+    print("Repeated character:", match.group(1))
+    print("Full match:", match.group(0))
+else:
+    print("No repetition found")"""
+
 #to check for floating number
 """import re
 pattern=r'^[+-]?[0-9]*\.[0-9]+$'
@@ -150,3 +160,145 @@ for i in range(n):
 
 for i in range(len(l)):
     print(l[i])"""
+
+"""
+import re
+n = int(input())
+results = []
+pattern = r'^' \
+          r'(?=[A-Za-z0-9]{10}$)' \
+          r'(?!.*(.).*\1)' \
+          r'(?=(?:.*[A-Z]){2,})' \
+          r'(?=(?:.*[0-9]){3,})' \
+          r'.*$'
+for _ in range(n):
+    text = input()
+    if re.match(pattern, text):
+        results.append("valid")
+    else:
+        results.append("invalid")
+
+print(*results, sep="\n")"""
+
+#for validating roman numeral
+"""regex_pattern = r"^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+
+import re
+print(str(bool(re.match(regex_pattern, input()))))"""
+
+#for checking hex color code
+"""import re
+pattern=r"(?!^#.*$)#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})" #first part i.e. lookahead is for checking that only hex code
+                                                        matches i.e. #BED AND #CAB wouldn't match
+text=
+#BED
+{
+    color: #FfFdF8; background-color:#aef;
+    font-size: 123px;
+    background: -webkit-linear-gradient(top, #f9f9f9, #fff);
+}
+#Cab
+{
+    background-color: #ABC;
+    border: 2px dashed #fff;
+}
+l=[]
+
+for i in range(int(input())):
+    text=input()
+    m=re.findall(pattern,text)
+    if(m):
+        for j in range(len(m)):
+            l.append(m[j])
+
+for k in l:
+    print("#"+k)"""
+
+#phone numbers matching regex
+""""import re
+pattern=r"^[7-9][0-9]{9}$"
+l=[]
+for i in range(int(input())):
+  text=input()
+  m=re.match(pattern,text)
+  if(m):
+    l.append("YES")
+  else:
+    l.append("NO")
+
+for j in l:
+  print(j)"""
+
+#for email address starting with alphabetical char
+"""import re
+pattern=r"^[a-zA-Z](\w|\-|\.)*\@[a-zA-Z]+\.[a-zA-Z]{1,3}$"
+l=[]
+for i in range(int(input())):
+  name,text=input().split()
+  text=text[1:len(text)-1]
+  m=re.match(pattern,text)
+  if(m):
+    l.append(name+" <"+text+">")
+
+for j in l:
+  print(j)"""
+
+#for valid credit card regex
+"""import re
+valid_char = r"^[4-6]\d{3}(-?\d{4}){3}$"
+no_rep = r"(\d)\1{3,}"
+l = []
+for i in range(int(input())):
+    text = input()
+    m = re.match(valid_char, text)
+    if (m):
+        text = text.replace('-', '')
+        n = re.search(no_rep, text)
+        if (n):
+            l.append('Invalid')
+        else:
+            l.append('Valid')
+    else:
+        l.append('Invalid')
+
+for j in l:
+    print(j)"""
+
+#for substituting " && " and " || " to " and " and " or " repectively
+"""
+import re
+orreg=r" \|\| "
+andreg=r" && "
+orrepl=" or "
+andrepl=" and "
+
+def reploper(text,pattern,replpatt):
+    t = re.sub(pattern,replpatt, text)
+    while(re.search(pattern,t)):
+        t=re.sub(pattern,replpatt,t)
+    return t
+
+for i in range(int(input())):
+    text = input()
+    findand = re.search(andreg, text)
+    findor = re.search(orreg, text)
+    if (findand):
+        m=reploper(text,andreg,andrepl)
+        if (findor):
+            n=reploper(m,orreg,orrepl)
+            print(n)
+        else:
+            print(m)
+    elif (findor):
+            n=reploper(text,orreg,orrepl)
+            print(n)
+    else:
+        print(text)"""
+
+#for checking postal codes also checks less than 1 times yxy by special method
+"""import re
+P = input()
+regex_integer_in_range = r"^[1-9][0-9]{5}$"
+regex_alternating_repetitive_digit_pair = r"(?=(.)\d\1)"
+print (bool(re.match(regex_integer_in_range, P))
+and len(re.findall(regex_alternating_repetitive_digit_pair, P)) < 2)"""
