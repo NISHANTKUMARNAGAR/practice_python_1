@@ -29,4 +29,5 @@ print(y-x)"""
 """t=time.localtime()
 print(t)
 formattedtime=time.strftime('%Y-%m-%d %H:%M:%S',t)
-print(formattedtime)"""
+print(formattedtime)
+print(type(formattedtime))"""

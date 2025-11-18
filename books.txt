@@ -1,4 +1,4 @@
 'return of king', 255, 800, 'christopher tolkein'
 'two towers', 326, 1999, 'christopher tolkein'
-'fellowship of ring', 588, 1887, 'jkrowling'
+'fellowship of ring', 588, 1887, 'jk rowling'
 'chamber of secrets', 454, 2999, 'jk rowling'

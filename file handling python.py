@@ -1,4 +1,4 @@
-#onpen('o.txt','x')
+#open('o.txt','x')
 n='o.txt'
 
 """f=open(n,'w')

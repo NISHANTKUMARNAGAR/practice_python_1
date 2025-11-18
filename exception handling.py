@@ -51,3 +51,30 @@ except ValueError as e:
     print(e.args)
     print(e.args[0])
     print(e.args[1])'''
+#--------------------------------------------------------
+"""class InvalidEmailError(Exception):
+    def __init__(self, email):
+        self.email = email
+        self.message = f"Invalid email format: '{self.email}'"
+        super().__init__(self.message)
+
+def validate_email(email_address):
+    if "@" not in email_address:
+        raise InvalidEmailError(email_address)
+    print(f"Email '{email_address}' is valid.")
+
+# Using the custom exception
+try:
+    validate_email("user@example.com")
+    validate_email("invalid-email")
+except InvalidEmailError as e:
+    print(f"Caught a custom error: {e}")
+except Exception as e:
+    print(f"Caught a generic error: {e}")
+
+# Example with a valid email
+try:
+    validate_email("test@example.com")
+except InvalidEmailError as e:
+    print(f"Caught a custom error: {e}")
+"""

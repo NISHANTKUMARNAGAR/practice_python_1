@@ -302,3 +302,27 @@ regex_integer_in_range = r"^[1-9][0-9]{5}$"
 regex_alternating_repetitive_digit_pair = r"(?=(.)\d\1)"
 print (bool(re.match(regex_integer_in_range, P))
 and len(re.findall(regex_alternating_repetitive_digit_pair, P)) < 2)"""
+
+#for validating a regex pattern
+"""import re
+
+l = []
+n = int(input())
+for i in range(n):
+    try:
+        pattern = input()
+        if (re.search(r'(\*|\+|\?){2,}', pattern)):
+            l.append(False)
+            continue
+        re.compile(pattern)
+    except re.error:
+        l.append(False)
+    else:
+        l.append(True)
+
+for j in l:
+    print(j)"""
+#that r'(\*|\+|\?){2,}' is for some regex engines allow .*+ but some dont so
+#if we want to allow proper sysntax of it without repetitive quantifier like
+# for example ** or ++ or *+ etc thats why used that if block to flag it as false
+#but at the end dpends on the regex engine that what it wants to be ok or not
