@@ -29,7 +29,7 @@ print(new_text)"""
 
 #to group() returns entire match can print separately using group(n) n bring the  group number
 """text="the email is example@example.com"
-pattern=r"\w+@\w+\.\w+" #(\w means any of a-z,A-Z,0-9 and _ ,+ we know),(@\w match @ before again \w+),(\. match single dot(.) before again \w+)
+pattern=r"\w+@\w+\.\w+" #(\w means any of a-z,A-Z,0-9 and _ ,+ we know),(@\w match @ before \w+),(\. match single dot(.) before again \w+)
 match=re.search(pattern,text)
 if match:
     email=match.group()
@@ -326,3 +326,21 @@ for j in l:
 #if we want to allow proper sysntax of it without repetitive quantifier like
 # for example ** or ++ or *+ etc thats why used that if block to flag it as false
 #but at the end dpends on the regex engine that what it wants to be ok or not
+
+#matrix script problem Hackrrank -- given a matrix,do -flip it,make a string and
+# use regex to replace group of symbol and whitespace with a single whitespace and print this
+"""import re
+n, m = map(int, (input().strip()).split())  # row,column
+matrix = []
+for _ in range(n): #to make matrix
+    matrix.append(input())
+
+middle = ""
+while (matrix != [""]*n): #to make a printable string from matrix
+    for i in range(len(matrix)):
+        middle = middle + matrix[i][0]
+        matrix[i] = matrix[i][1:len(matrix[i])]
+#could also just do newflippedmatrix=zip(*matrix) to get a matrix instead of using loops
+
+print(re.sub(r"(?<=[A-Za-z0-9])(\s|!|@|#|\$|%|&)+(?=[A-Za-z0-9])"," ",middle))
+#also $ means end of line so to check literal $ use \$"""

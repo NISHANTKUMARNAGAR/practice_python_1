@@ -53,6 +53,7 @@ print(a.lower())
 b="      ram    "
 print(b)
 print(b.strip()) # removes any white spaces before and after the string
+#if want to use in map() use str.strip because strip is not a global function
 
 c="ram$$$$$$$$$$"
 print(c.rstrip("$")) # remove any trailing character
@@ -85,7 +86,7 @@ print(e.index("nagar"))
 #print(e.index("hello"))
 
 # so there both index() and find() gives the index value if it can find the character
-#but if it cant find only gives -1 but index gives exception
+#but if it cant find only gives -1 but index gives raises exception
 
 print(e.isalnum()) #only alphabets and numbers present
 print(e.isalpha()) #only alphabets present gives false as there is a space(" ") in string
