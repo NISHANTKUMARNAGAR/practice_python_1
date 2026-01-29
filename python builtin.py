@@ -107,8 +107,10 @@ def findattr(item): #to get that specific attr. value
     global k
     return item[k]
 
-#key finds that specific attr. value for every player then that's sorted by this function sorted() then it returns list i.e. players data based on that sorting plus it retains input order so if two players have same value on that attribute we dont have to worry about that 
-sorted_data=sorted(athedata,key=findattr)
+#key finds that specific attr. value for every player then that's sorted by this function
+ #sorted() then it returns list i.e. players data based on that sorting plus it retains
+  #input order so if two players have same value on that attribute we dont have to worry about that 
+sorted_data=sorted(athedata,key=findattr) #sorted() takes a func in 2nd arguement thats why func. findattr is used
 for item in sorted_data: #printing sorted by that attribute
   print(" ".join(map(str,item)))"""
 

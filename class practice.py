@@ -55,12 +55,29 @@ def add(a,b):
 add=outer(add)
 add(1,3)"""
 
+#decorator which takes a value
+"""
+def repeat(times): #just to take value for decorator
+    def decorator(func): #actual decorator
+        def wrapper(*args,**kwargs): #wrapper that replaces orignal function
+            for _ in range(times):
+                result=func(*args,**kwargs)
+            return result
+        return wrapper
+    return decorator
+
+@repeat(5)
+def sayhi():
+    print("hi")
+
+sayhi()"""
+
 #getter setter
 """class myclass:
     def __init__(self,v):
         self.value=v
 
-    @property
+    @property  #this is getter used to get value
     def valueobj(self):
         return self.value
 
@@ -133,15 +150,39 @@ class Manager(Ceo):
     name="op"
 
 
-#o=Ceo("ron",23)
-#o.show()
-o1=Manager()
+o=Ceo("ron",23)
+o.show()
+o1=Manager("naman",99)
 o1.show()
 print(o1.sal)"""
 ###if same variable name in both classes and obj of manager
-# uses it the name of manger i.e.derived one is used and will
+# uses it the name of manager i.e.derived one is used and will
 # be used not the ceo one,and same is for constructor the constructor
-# of manger is used over constructor of ceo for the obj of manger class
+# of manager is used over constructor of ceo for the obj of manager class
+
+#private(__itemname) items in class
+"""class Details:
+    def __init__(self):
+        self.__name="rohit"
+
+    def info(self):
+        print(self.__name)
+
+obj=Details()
+#print(obj.__name) #cant be accessed directly
+print(obj._Details__name)
+print(obj.info())"""
+
+#acessing and working of class and instance variables
+"""class Test:
+    compname="tesla"
+
+p1=Test()
+p2=Test()
+print(p1.compname)
+p1.compname="pk"
+print(p1.compname)
+print(p2.compname)"""
 
 #class methods
 """class Test:
@@ -158,7 +199,8 @@ print(Test.company)
 t.changecompany("apple")
 print(Test.company)"""
 
-"""class ABC:
+"""#creating object using class method
+class ABC:
     a=2
     @classmethod
     def create(cls,temp):
@@ -189,6 +231,8 @@ print(help(p))
 print(help(Person))"""
 
 """#super method
+#used to acess attr. of parent class in child class
+# as we cannot use them directly
 class P1:
     p1att=9
     def p1m(self):

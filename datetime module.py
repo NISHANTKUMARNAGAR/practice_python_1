@@ -8,11 +8,6 @@ print(t)
 print(t.day)
 print(t.year)
 print(t.month)
-#for date from timestamp 1887639468
-from datetime import datetime
-ts=datetime.fromtimestamp(1887639468)
-print(ts)
-print(ts.date())
 #can also convert date to string
 t=date.today()
 tstr=t.isoformat()
@@ -37,6 +32,11 @@ print(b.hour)
 print(b.minute)
 #for timestamp from unix epoch
 print(b.timestamp())
+#for date from timestamp 1887639468
+from datetime import datetime
+ts=datetime.fromtimestamp(1887639468)
+print(ts)
+print(ts.date())
 #for current date,time
 t=datetime.now()
 print(t)
@@ -63,10 +63,9 @@ print(newn)
 secnewn=n+timedelta(days=730) #add 2 years
 print(secnewn)
 #to find difference
-print("time difference: ",newn-n)
 td=newn-n
 print(td)
 #time difference in seconds
-print(td.total_seconds())"""
+print(td.total_seconds())
 # - is normally subtract but here its behaving like a dunder
-# method its altered by operator overloading
+# method its altered by operator overloading for datetime object"""

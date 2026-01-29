@@ -9,62 +9,28 @@ print(c.most_common(2)) #top 2 most common
 print(c.most_common()) #all char count in decreasing"""
 
 #hackerrank question company logo "tough question" IMPORTANT
-"""
-from collections import Counter
-c=Counter(input())
-d=c.most_common() #without arguement gives all items
-beforelc=[]
-for i in d: #to get all element in descending
-    beforelc.append(i)
-lc=[]
-for item in beforelc:#descending count order list
-    lc.append(item[0])
-final=[] #final printing list
-templist = [] #to sort similar counts in alphabetical order
+"""from collections import Counter
 
-def sorttemplist(): #sorting similar count list
-    global templist
-    templist.sort()
-    for i in range(len(templist)):  # adding sorted in alphabetical order to final
-        final.append(templist[i])
-    templist.clear()
+s = input().strip() #to get company name in s
+c = Counter(s) # to get counts of aphabetical characters in c
 
-for i in range(len(lc)): #to sort the counter by putting similar count in alphabetical order
-    if(i==0): #for 1st element
-        if(c[lc[i]]>c[lc[i+1]]): #if first one is distinct and higher than next
-            final.append((lc[i],c[lc[i]]))
-        else: #if first one is not distinct
-            templist.append((lc[i],c[lc[i]]))
-    elif(i==(len(lc)-1)): #for last element
-        if(c[lc[i]]<c[lc[i-1]]): #if this last element is distinct
-            sorttemplist()
-            final.append((lc[i],c[lc[i]]))
-        else:
-            templist.append((lc[i],c[lc[i]]))
-            sorttemplist()
-    else: #for every other element
-        if(c[lc[i]]>c[lc[i+1]]) and (c[lc[i]]<c[lc[i-1]]): #if current is distinct and lower than prev and high than next
-            if(len(templist)!=0): #check if samecount list exists
-                sorttemplist()
-            final.append((lc[i],c[lc[i]]))
-        else: #if current one is same count as before
-            if(c[lc[i]]==c[lc[i-1]]): #if current has same char count as before
-                templist.append((lc[i],c[lc[i]]))
-            else: #if its the starting of new group,then sort templist first then start new group
-                sorttemplist()
-                templist.append((lc[i],c[lc[i]]))
+sorted_items = sorted(c.items(), key=lambda x: (-x[1], x[0]))
+#here basically c would be a dictionary as counter(s) would return a dictionary and
+#in c.items would be containing tuples of like ('a',3),('b',4) etc so now here in lamda
+#function for a tuple ('a',3) will be x,here x[0]='a' and x[1]=3 so when we write
+#(-x[1],x[0]) it will be (-counter,character) we have done this because now, normally,
+#what would happen is if we have different counts, like 4 and 5 but we would want in
+#our actual output to have the bigger count come before than the smaller one. And
+#but this sorted function will sort them by 4 and then 5. And we want the opposite.
+#That is why we adding a minus to it,i.e minus to the counter, so that we would have the 5 first.
+#And then 4 which and then sorted will work by sorting those actual, bigger count first,
+#because they have minus. And then if some have the similar count, it will absolutely look
+#to the next value of the tuple Sort the alphabets alphabetically, which would have the similar counts.
+#so So sorted does actually first applies the key function and then sorts it. thats why it would first
+#create (-count,character) pairs of all then sort accoring to these pairs
 
-
-    # if final is having 3 values
-    if(len(final)==3):
-        break
-
-iter=0
-for i in range(len(final)):
-    if(iter==3):
-        break
-    print(final[i][0],final[i][1])
-    iter=iter+1
+for char, count in sorted_items[:3]:
+    print(char, count)
 """
 
 #----------------ordered dictionary(OrderedDict)----------
@@ -74,6 +40,8 @@ od=OrderedDict()
 od['a']=1
 od['b']=2
 od['c']=3
+od['d']=6
+od['e']=9
 
 for key,value in od.items():
     print(key,value)
@@ -83,7 +51,18 @@ od['a']=1 #re-insertion ,will appear at last
 
 print("\nafter insertion")
 for k,v in od.items():
-    print(k,v)"""
+    print(k,v)
+
+#to move particular key to end
+od.move_to_end('c')
+print(od)
+#pop items from left or right ends
+od.popitem(last=False) #pops first item
+od.popitem(last=True)  #pops last item
+print(od)
+#also orderedDict like([('a',2),('b',1)]) is not same as
+#orderedDict like([('b',1),('a',2)]) if we check them by
+#== will give false as ordereddict ensures insertion order"""
 
 #------------------default dictionary(defaultdict)-------
 """from collections import defaultdict
@@ -93,6 +72,11 @@ L=[1,2,3,4,2,3,1,5]
 
 for i in L:
     intd[i]=intd[i]+1
+    #here we dont have to check if that key is in
+    #dict or not as defaultdict creates that key
+    #gives it a value 0 as value of int() is 0
+    #hence first time we acess it its def value is 0
+    #thats why it did not give error
 
 print(intd)
 print(dict(intd))
@@ -102,6 +86,8 @@ print("\n")
 listd=defaultdict(list)
 for i in range(5):
     listd[i].append(i)
+    #here same as above create empty list for every
+    #key and appending i value to it
 
 print(listd)
 print(dict(listd))"""
@@ -153,9 +139,9 @@ for _ in range(t): # loop for each testcase
         final.append("Yes")
         continue
     else:  #if more than 1 element in deque
-        ini=(2**31)+1
+        ini=(2**31)+1 #maximum possible value in hackerrank +1 to check less than
         while(True): #loop for checking in given list in single testcase
-            if(len(d)==1): #if initially more than 1 but after operations 1 remains
+            if(len(d)==1): #if initially more than 1 but after operations last one 1 remains
                 if((remain:=d.pop())<=ini):
                     final.append("Yes")
                     break
@@ -166,14 +152,14 @@ for _ in range(t): # loop for each testcase
                 right=d.pop()
                 left=d.popleft()
                 if(left>=right): #left bigger
-                    d.append(right)
+                    d.append(right) #giving back the unused value to deque
                     if(left<=ini):
                         ini=left
                     else:
                         final.append("No")
                         break
                 else: #right bigger
-                    d.appendleft(left)
+                    d.appendleft(left) #giving back the unused value to deque
                     if(right<=ini):
                         ini=right
                     else:

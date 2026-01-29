@@ -1,3 +1,4 @@
+#to organiza random file names to correct in clutter folder
 import os
 ext=".png"
 l=os.listdir("clutter/")

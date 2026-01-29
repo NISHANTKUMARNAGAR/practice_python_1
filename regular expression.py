@@ -22,7 +22,9 @@ for i in matches:
     print(i.span(),i.group())"""
 
 #to replace
-"""pattern=r"[a-z]+at" #([a-z] means any one character from a to z),(+ any characters after a to z is allowed),(at is matched after [a-z]+ in text)
+"""pattern=r"[a-z]+at" #([a-z] means any one character from a to z),
+                        (+ any characters after a to z is allowed),
+                        (at is matched after [a-z]+ in text)
 text="the cat is in the hat"
 new_text=re.sub(pattern,"dog",text)
 print(new_text)"""
@@ -64,25 +66,8 @@ print(m.end())"""
 
 #prog to find consecutive alphanumeric item
 """import re
-pattern=r'[a-z]|[A-Z]|[0-9]'
-text=input()
-final=''
-for i in range(len(text)):
-    if(i!=(len(text)-1)):
-        p=re.match(pattern, text[i])
-        q=re.match(pattern, text[i+1])
-        if((p!=None) and (q!=None)):
-            if(p.group()==q.group()):
-                final=p.group()
-                break
-if(final!=''):
-  print(final)
-else:
-  print(-1)"""
-
-"""import re
 text = "aB22ccZ7z"
-pattern = r'([a-zA-Z0-9])\1'
+pattern = r'([a-zA-Z0-9])\1' #\1 means that 1st group in () repeats
 match = re.search(pattern, text)
 if match:
     print("Repeated character:", match.group(1))
@@ -92,10 +77,9 @@ else:
 
 #to check for floating number
 """import re
-pattern=r'^[+-]?[0-9]*\.[0-9]+$'
+pattern=r'^-?[0-9]*\.[0-9]+$'
 n=int(input())
 l=[]
-
 for i in range(n):
     text=input()
     m=re.search(pattern,text)
@@ -109,68 +93,14 @@ for t in l:
 
 #to check for id size 10 containing non-repetitive alphanumeric characters
 """import re
-
-def check(q): #for checking if no repetitions
-    flag= 0
-    for k in range(len(q)):
-        for j in range(len(q)):
-            if(q[k]==q[j]):
-                flag=flag+1
-
-    if(flag==10):
-        return True
-    else:
-        return False
-
-def finding(p,t): #for checking of only that range of characters
-    f=re.findall(p,t)
-    return f
-
-def nother(t): #for checking only alphanumeric characters
-    for z in t:
-        x=re.match(r'[a-zA-Z0-9]',z)
-        if(x==None):
-            return False
-
-    return True
-
-pattern1=r"[A-Z]"
-pattern2=r'[0-9]'
-pattern3=r'[a-z]'
-n=int(input())
-l=[]
-for i in range(n):
-    text=input()
-    if(len(text)==10 and nother(text) and check(text)):
-        m=finding(pattern1,text)
-        if(len(m)>=2 and len(m)<=7): #at least 2 uppercase
-            n=finding(pattern2,text)
-            if(len(n)>=3 and len(n)<=8): #at least 3 digits
-                o=finding(pattern3,text)
-                if(len(o)>=0 and len(o)<5): #only other remaining are smaller case
-                    l.append("valid ")
-                else:
-                    l.append("invalid")
-            else:
-                l.append("invalid")
-        else:
-            l.append("invalid")
-    else:
-        l.append("invalid")
-
-for i in range(len(l)):
-    print(l[i])"""
-
-"""
-import re
 n = int(input())
 results = []
 pattern = r'^' \
-          r'(?=[A-Za-z0-9]{10}$)' \
-          r'(?!.*(.).*\1)' \
-          r'(?=(?:.*[A-Z]){2,})' \
-          r'(?=(?:.*[0-9]){3,})' \
-          r'.*$'
+          r'(?=[A-Za-z0-9]{10}$)' \ #only has alphanumerric characters
+          r'(?!.*(.).*\1)' \ #no repetition allowed
+          r'(?=(?:.*[A-Z]){2,})' \ #atleast 2 alphabetic characters
+          r'(?=(?:.*[0-9]){3,})' \ #atleast 3 alphabetic characters
+          r'.*$' #after above conditions could have anything after that
 for _ in range(n):
     text = input()
     if re.match(pattern, text):
@@ -313,7 +243,8 @@ for i in range(n):
         pattern = input()
         if (re.search(r'(\*|\+|\?){2,}', pattern)):
             l.append(False)
-            continue
+            continue #if above if is satisfied false is added to list
+                         continue skips this iteration
         re.compile(pattern)
     except re.error:
         l.append(False)
@@ -335,12 +266,21 @@ matrix = []
 for _ in range(n): #to make matrix
     matrix.append(input())
 
+matrix=zip(*matrix) #used zip to flip matrix
+middle=""
+for i in range(len(matrix)): #using for loop to creatie single string from matrix
+        s="".join(matrix[i]) #making sub list to single string
+        middle=middle+s #adding each sub list to single final string "middle"
+
+print(re.sub(r"(?<=[A-Za-z0-9])(\s|!|@|#|\$|%|&)+(?=[A-Za-z0-9])"," ",middle))
+#also $ means end of line so to check literal $ use \$"""
+
+#istead of zip() above could use below code to form a string from matrix
+"""
 middle = ""
 while (matrix != [""]*n): #to make a printable string from matrix
     for i in range(len(matrix)):
         middle = middle + matrix[i][0]
         matrix[i] = matrix[i][1:len(matrix[i])]
-#could also just do newflippedmatrix=zip(*matrix) to get a matrix instead of using loops
 
-print(re.sub(r"(?<=[A-Za-z0-9])(\s|!|@|#|\$|%|&)+(?=[A-Za-z0-9])"," ",middle))
-#also $ means end of line so to check literal $ use \$"""
+#could also just do newflippedmatrix=zip(*matrix) to get a matrix instead of using loops"""

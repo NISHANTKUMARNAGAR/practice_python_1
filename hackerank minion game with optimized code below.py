@@ -1,5 +1,5 @@
 #unoptimized code
-
+"""
 def finapp(c,s,s1):
     for i in range(len(s)):
         if ( ord(s[i]) == ord(s1[0]) ):
@@ -37,20 +37,20 @@ def minion_game(string):
         print('Draw')
 
 s ='BANANA'
-minion_game(s)
+minion_game(s)"""
 
 #optimized code
 
-'''so above Program problem is that the function of the minion game Generate all possible substrings
+"""so above Program problem is that the function of the minion game Generate all possible substrings
 of a given string for example banana My using nested for loops meaning it goes up to a complexity 
 of order of n square Generated substring another Now we check every little substring for the whole 
 string that how many times it occurs in the original that adds the complexity of order n of a game 
 because another for loop is executed for that so now the problem in worst case it would go upto oerder 
 of n cube which is not much for word like banana a 6 letter word but in some real life scenario this 
-complexity would go to trillioss of calucation which would take years'''
+complexity would go to trillioss of calucation which would take years
 
-'''so now wwe would not generate all substring we would just count number of sub-string that would be
-generated mening for banana all substring from b are points for stuart because b is consonant meaning 
+so now wwe would not generate all substring we would just count number of sub-string that would be
+generated meaning for banana all substring from b are points for stuart because b is consonant meaning 
 b,ba,ban,bana,banan,banana 6 points for stuart likewise a(1st a) substring will be a,an,ana,anan,anana
 will be 5 points for kevin so we can just check if 1st letter is vowel or not and add points accordingly
 to kevin or stuart for overalapping of ana in this a(1st a)gernerates ana and a(2nd a)generates ana again 
@@ -75,8 +75,9 @@ we can conlude that "n-i" is formula that works and as i will increase
 from 1 to 6 all possible substring will be counted just add itself 
 (meaning that letter to as its also a substring)
 
-#remove the sets too as we are just counting the substring not creating them so no storing in sets and no counting of them
-
+#remove the sets too as we are just counting the substring not creating
+ #them so no storing in sets and no counting of them
+"""
 def minion_game(string):
     vow='AEIOU'
     kevin=0
@@ -98,4 +99,4 @@ def minion_game(string):
         print('Draw')
 
 s ='BANANA'
-minion_game(s)'''
+minion_game(s)

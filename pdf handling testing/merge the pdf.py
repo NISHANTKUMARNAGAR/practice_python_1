@@ -1,4 +1,4 @@
-#for merging two pdf by merging each page individually
+#for merging two pdf by merging each page individually (when less files or there are specific ones to be merged)
 """from PyPDF2 import PdfReader,PdfWriter
 
 pw=PdfWriter()
@@ -11,7 +11,7 @@ for i in ['test.pdf','test1.pdf']:
 with open("merged.pdf",'wb') as of:
     pw.write(of)"""
 
-#for merging the pdf using append instead of merging individual pages
+#for merging the pdf using append instead of merging individual pages(when merging large number of files in whole dir.)
 """from PyPDF2 import PdfWriter
 import os
 

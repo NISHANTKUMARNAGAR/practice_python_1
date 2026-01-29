@@ -29,7 +29,7 @@ while True:
     print(l1)
 f.close()"""
 
-"""f=open(n,'r')
+"""f=open(n,'r') #when we know how many lines
 for i in range(4):
     l=f.readline()
     l1=l.rstrip('\n')

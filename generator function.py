@@ -11,7 +11,7 @@ print(next(p))
 print(next(p))
 print(next(p))
 try:
-    print(next(p))
+    print(next(p)) #stopiteration exception is raised when generator function ends
 except StopIteration:
     print("stop iteration is raised")"""
 

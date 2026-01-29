@@ -121,9 +121,9 @@ c=np.array([[5],[6]])
 print(np.hstack([a,a]))
 print(np.hstack([a,c]))
 print(np.concatenate([a,b],axis=0)) 
-print(np.concatenate((a,b)))
+print(np.concatenate((a,b)))"""
 #concatenate axis=0 is like vstack and 1 is like hstack
-#by default concatenate takes 0 as axis value"""
+#by default concatenate takes 0 as axis value
 
 #utiity functions
 """a=np.array([1,1,2,3,4,5])
@@ -131,8 +131,8 @@ print(np.unique(a))
 print(np.unique(a,return_counts=True))
 b=np.array([14,11,12,3,4,5])
 print(np.sort(b))
-print(np.argsort(b)) #gives indices it would sort according
-                     #to respective from orignal array
+print(np.argsort(b)) #gives indices of sorted values
+                    # with respect to original array
 c=np.array([10,20,30,40,50])
 print(np.where(c>25))
 print(np.where(c>25,1,0)) #if false give 0 ,true give 1
@@ -159,9 +159,9 @@ print(np.linalg.inv(a)) #inverse
 print(np.linalg.eig(a)) #eigrnvalue and eigenvector"""
 
 #special function to trim large decimal values
-"""#num = number to be trimmed
+#num = number to be trimmed
 #n = the no. of digits after places we want just replace 11
-def trim(num, n=11):
+"""def trim(num, n=11):
     s = ('{0:.%df}' % n).format(num)  # round to n decimals
     if '.' in s:
         s = s.rstrip('0').rstrip('.')  # remove extra zeros if less numbers than 11 after .

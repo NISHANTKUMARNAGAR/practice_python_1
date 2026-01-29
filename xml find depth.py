@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as et
-tree=et.parse("test.xml")
+tree=et.parse("depthtest.xml")
 root=tree.getroot()
 maxdepth=0
 
@@ -9,6 +9,9 @@ def finddepth(node,level):
         maxdepth=level
     for child in node:
         finddepth(child,level+1)
+
+finddepth(root,-1)
+print(maxdepth)
 ######WHY THIS WORKS-------------------------------------------
 # so we increase level/depth when we go into a child and its diff.
 # from brefore "maxdepth=maxdepth+1" as then it would
@@ -16,10 +19,10 @@ def finddepth(node,level):
 # wrong ,and we wanted to increase depth when new deeper level
 # or inner child was encountered and also we only incerase
 # max depth when level of this child is deeper then before
-# thats why in our example test.xml when we increased to level 5
-# on fifthchild deep inside subtitle it set level to 5 and as it
+# thats why in our example depthtest.xml when we increased to level 5
+# on fifthchild deep inside 'subtitle' it set level to 5 and as it
 # was greater then any before it updated maxdepth to 5 and also
-# as 5 would be greater than any other depth inside test.xml,it
+# as 5 would be greater than any other depth inside depthtest.xml,it
 # would not allow to update maxdepth again because of
 # if(level>maxdepth),also if any node has no children loop would
 # not run and this version of function would end with only with
@@ -53,10 +56,6 @@ def finddepth(node,level):
 # the way DOWN (using 'level' and updating maxdepth immediately),
 # while the alternative approach tracks depth on the way BACK UP,
 # which requires extra comparisons, variables, and returns.
-
-
-finddepth(root,-1)
-print(maxdepth)
 
 """"if root starts at -1 according to hackerrank"""
 """

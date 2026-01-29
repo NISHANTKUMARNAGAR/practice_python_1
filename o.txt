@@ -1,3 +1,2 @@
-i am learning python
-i am learning file handline
-i am using harry course
+hello
+world

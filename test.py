@@ -1,3 +1,11 @@
-p=4.1234567890
-q=3.121
-print(f"{q:.5f}")
+def test(nums,target):
+    for i in range(len(nums)):
+        slicednums=nums[i + 1:len(nums)]
+        for j in range(len(slicednums)):
+            if (nums[i] + slicednums[j] == target):
+                return i, j
+
+nums=[2,7,11,15]
+target=9
+t=test(nums,target)
+print(t)

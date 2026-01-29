@@ -13,9 +13,9 @@ elif(h>=12 and h<=23):
     print("then its pm")
     if(h>=12 and h<18):
         print("good afternoon")
-    elif(h>=18 and h<20):
+    elif(h>=18 and h<21):
         print("good evening")
-    elif(h>=20 and h<23):
+    elif(h>=21 and h<23):
         print("good night")
     elif(h==23):
         if(m>=00 and m<=59):

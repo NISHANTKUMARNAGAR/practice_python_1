@@ -17,6 +17,10 @@ p2.data()"""
     def __init__(self,n):
         self.number=n
 
+    @staticmethod
+    def greet():
+        print("hello)
+    
     @property
     def sqrn(self):
         return self.number*self.number
@@ -47,7 +51,7 @@ print(o.a)
 #o.a does change the attribute"""
 
 #question 4
-
+"""added in question 2"""
 
 #question 5
 """#l = [[12331, 30, 200], [45454, 14, 400]]
@@ -58,7 +62,7 @@ class Indtrain:
         self.trno=tr
         self.tick=ti
 
-    l = [[12331, 30, 200], [45454, 14, 400]]
+    l = [[12331, 30, 200], [45454, 14, 400]] #train data(train no.,no. of tick,price)
 
     def bookticket(self):
         #global l
@@ -99,4 +103,5 @@ o.fareinfo()
         print(nishu.n,nishu.a)
 
 o=Test()
-o.info()"""
+o.info()
+#can use anything as long as we use it consistently "self" is just a standard thing used in python"""
