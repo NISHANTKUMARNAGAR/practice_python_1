@@ -1,4 +1,4 @@
-s=[" "]
+s=["eat","tea","tan","ate","nat","bat"]
 d={}
 for i in range(len(s)):
     temp="".join(sorted(s[i]))
