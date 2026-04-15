@@ -35,3 +35,14 @@ def fibonacci(n):
 if __name__ == '__main__':
     n = int(input())
     print(list(map(cube, fibonacci(n))))'''
+
+#memoization using dictionary to give fibonacci hnumber at a given index
+#can make this using iterative approach too
+"""def fib(n, dp={}):
+    if n in dp: #if the index of fibonacci already present in dictionary give it directly
+        return dp[n]
+    if n <= 1: #if n=0 or 1 give that number directly
+        return n
+    dp[n] = fib(n-1) + fib(n-2) #if not above cases calculate it recursively and store it
+    return dp[n] #just give that fibnacci0_number=dictionary[fibonacci index]
+"""
