@@ -1,0 +1,9 @@
+ID,Name,Age,Salary,City
+1,Alice,21,50000,Kota
+2,Bob,,60000,Jaipur
+3,Charlie,19,,Delhi
+4,,22,55000,
+5,Eve,,,Mumbai
+6,,,,
+7,Frank,25,70000,Pune
+8,Grace,24,,Indore
