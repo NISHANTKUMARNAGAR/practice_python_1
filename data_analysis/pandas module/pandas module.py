@@ -374,6 +374,9 @@ s=pd.Series(['3/11/2000','3/12/2000','3/13/2000'])
 d12=pd.DataFrame(s)
 d12[0]=pd.to_datetime(d12[0])
 print(d12)
+s21=pd.Series(['12/05/2002','16/02/1999','05/09/1998','12/02/2022','15/09/1997'])
+s21=pd.to_datetime(s21,format='%d/%m/%Y').dt.strftime('%m/%d/%Y')
+print(s21)
 """
 
 #melt
@@ -556,6 +559,24 @@ d22 =pd.DataFrame({
 print(d22)
 d22.columns=d22.columns.str.lower().str.rstrip()
 print(d22)
+s4 = pd.Series(['10', '250', '3000', '40000', '500000'])
+print(s4.str.pad(8,'left','0'))
+s5=pd.Series(['12/05/2002','16/02/1999','25/09/1998','12/02/2022','15/09/1997'])
+print(s5.str.count('2'))
+print(s5.str.find('22'))
+print(s5.str.find('22',2,10))
+s6=pd.Series(['Company','Company a001','Company 123', '1234', 'Company 12'])
+print(s6.str.isalnum())
+print(s6.str.isalpha())
+print(s6.str.isdigit())
+print(s6.apply(lambda x:True if type(x)==int else False))
+s7=pd.Series(['ABCD','EFGF', 'hhhh', 'abcd', 'EAWQaaa','Love',' '])
+print(s7.str.isupper())
+print(s7.str.islower())
+print(s7.str.istitle())
+print(s7.str.isspace())
+print(s7.str.swapcase())
+
 """
 
 #duplicated() and drop_duplicates()
@@ -737,6 +758,11 @@ print(df._append(temp,ignore_index=True))"""
                                                     names=['Student', 'Subject']))
 print(s)
 print(s.unstack(level=1,fill_value=0))"""
+
+#transform()
+"""df11=pd.DataFrame({'dept':['A','A','B','B','B'],'salary':[10,20,30,40,50]})
+df11['dept_avg']=df11.groupby('dept')['salary'].transform('mean')
+print(df11)"""
 
 #------------------------Pandas questions---------------------------
 #pandas data Series
@@ -1416,3 +1442,120 @@ print(df11)
 """
 
 #string and regular expression
+"""s1 = pd.Series(['X', 'Y', 'Z', 'Aaba', 'Baca', np.nan, 'CABA', None, 'bird', 'horse', 'dog'])
+print(s1.str.upper())
+print(s1.str.lower())
+print(s1.str.len())
+s2 = pd.Index([' Green', 'Black ', ' Red ', 'White', ' Pink '])
+print(s2.str.strip().values)
+print(s2.str.rstrip().values)
+print(s2.str.lstrip().values)
+s3=pd.Series([10, 250, 3000, 40000, 500000])
+def addleadzero(x):
+    temp=8-len(str(x))
+    if temp>0:
+        return ('0'*temp)+str(x)
+    else:
+        return str(x)
+print(s3.apply(addleadzero))
+print(s3.apply(lambda x:'{0:0>8}'.format(x)))
+s4=pd.Series(['10', '250', '3000', '40000', '500000'])
+print(s4.str.pad(8,'left','0'))
+df=pd.DataFrame({'name': ['alberto','gino','ryan', 'Eesha', 'syed'],
+                 'age': [18.5, 21.2, 22.5, 22, 23]})
+df['name']=df['name'].str.capitalize()
+print(df)
+s5=pd.Series(['22/05/2022','16/02/1999','25/09/1998','12/02/2022','15/09/1997'])
+print(s5.str.count('2'))
+print(s5.str.find('22'))
+print(s5.str.find('22',2,10))
+s6=pd.Series(['Company','Company a001','Company 123', '1234', 'Company 12'])
+print(s6.str.isalnum())
+print(s6.str.isalpha())
+print(s6.str.isdigit())
+print(s6.apply(lambda x:True if type(x)==int else False))
+s7=pd.Series(['ABCD','EFGF', 'hhhh', 'abcd', 'EAWQaaa','Love',' '])
+print(s7.str.isupper())
+print(s7.str.islower())
+print(s7.str.istitle())
+print(s7.str.isspace())
+print(s7.str.len())
+print(s7.str.swapcase())
+print(s7.str.title())
+s8=pd.Series([12348.5, 233331.2, 22.5, 2566552.0, 23.0])
+print(s8.astype(str).str.len())
+s9=pd.Series(['zereter','sdsaeelp'])
+print(s9.str.startswith('ze'))
+print(s9.str.endswith('lp'))
+s10=pd.Series(['a','b','c'])
+print(s10.str.replace('a','z'))
+s11=pd.Series(['a b c','p q','a'])
+print(s11.str.split(" ",expand=True))
+
+#regex for email
+s12=pd.Series(['Alberto Franco af@gmail.com blabla@bla.bla','Gino Mcneill gm@yahoo.com','Ryan Parkes rp@abc.io','Eesha Hinton','Gino Mcneill gm@github.com'])
+print(s12.str.findall(r'[\w\.-]+@[\w-]+\.[\w]+'))
+
+#regex for all hashtags
+s13=pd.Series(['#Obama says goodbye','Retweets for #cash','A political endorsement in #Indonesia', '1 dog = many #retweets', 'Just a simple #egg'])
+print(s13.str.findall(r'(?<=#)\w+'))
+
+#regex for numbers in address
+df1=pd.DataFrame({'address': ['7277 Surrey Ave.', '920 N. Bishop Ave.', '9910 Golden Star St.', '25 Dunbar St.',
+            '17 West Livingston Court']})
+df1['numbers']=df1.address.str.findall(r'\d+')
+print(df1)
+
+#regex for phone number
+s14=pd.Series(['Company1-Phone no. 4695168357 2','Company2-Phone no. 8088729013','Company3-Phone no. 6204658086', 'Company4-Phone no. 5159530096', 'Company5-Phone no. 9037952371'])
+print(s14.str.findall(r'\d{10}'))
+
+#regex to find number btw 1800 and 2200
+s15=pd.Series(['year 1800','year 1700','year 2300', 'year 1900', 'year 2200'])
+def check(x):
+    p=re.findall(r'\d{4}',x)
+    if p and 2200>=int(p[0])>=1800:
+        return p[0]
+print(s15.apply(check))
+
+#regex to find other than alphanumeric cleaning data
+s16=pd.Series(['c0001#','c00@0^2','$c0003', 'c0003', '&c0004'])
+print(s16.str.findall(r'[^a-zA-Z0-9]'))
+
+#regex to find punchuation
+s17=pd.Series(['c0001.','c000,2','c0003', 'c0003#', 'c0004,'])
+print(s17.str.findall(r'[^\w\s]'))
+
+#regex to remove repetition
+s18=pd.Series(['She livedd a long life.','How oold is your father?','What is tthe problem?','TThhis desk is used by Tom.'])
+print(s18.str.replace(r'(.)\1+',r'\1',regex=True))
+
+#regex to find numbers greater than 940
+s19=pd.Series(['7277 Surrey Ave.1111','920 N. Bishop Ave.','9910 Golden Star St.', '1025 Dunbar St.', '1700 West Livingston Court'])
+print(s19.str.findall(r'9[4-9][1-9]|9[5-9][0-9]|[1-9]\d{3,}'))
+
+#'regex to find nunber less than 100' then 'regex to find phrase containing Ave and 92'
+s20=pd.Series(['72 Surrey Ave.11','92 N. Bishop Ave.','9910 Golden Star St.', '102 Dunbar St.', '17 West Livingston Court'])
+print(s20.str.findall(r'\b[0-9]{1,2}\b'))
+print(s20.str.findall(r'(?=.*Ave.)(?=92).*'))
+
+#regex to find date of format mm-dd-yyyy
+s21=pd.Series(['12/05/2002','16/02/1999','05/09/1998','12/02/2022','15/09/1997'])
+print(s21.str.findall(r'^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|[3][01])/[0-9]\d{3}$'))
+
+#regex to find all words
+s22=pd.Series(['72 Surrey Ave.11','92 N. Bishop Ave.','9910 Golden Star St.', '102 Dunbar St.', '17 West Livingston Court'])
+print(s22.str.findall(r'\b[a-zA-Z]+\b'))
+
+#contains word avenue
+s23=pd.Series(['9910 Surrey Avenue','92 N. Bishop Avenue','9910 Golden Star Avenue', '102 Dunbar St.', '17 West Livingston Court'])
+print(s23[s23.str.contains('Avenue')])
+
+#words starting with Capital letter
+s24=pd.Series(['9910 Surrey venue','92 N. ishop Avenue','9910 Golden Star Avenue', '102 Dunbar St.', '17 West ivingston Court'])
+print(s24.str.findall(r'\b[A-Z][a-z]*\b'))
+
+#remove html tags
+s25=pd.Series(['9910 Surrey <b>Avenue</b>','92 N. Bishop Avenue','9910 <br>Golden Star Avenue', '102 Dunbar <i></i>St.', '17 West Livingston Court'])
+print(s25.str.replace(r'</?[a-z]{1,2}>','',regex=True))"""
+
