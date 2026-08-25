@@ -20,7 +20,7 @@ print(data1.sort_values(by='English',ascending=False))
 print(data1.sort_values(by='English',ignore_index=True))
 print(data1.sort_values(by=['marks','chem'],ascending=[False,True]))"""
 
-#fillna,describe,drop,pop,loc,creating row/column
+#fillna,ffill,bfill,describe,drop,pop,loc,creating row/column
 """data=pd.read_csv('book2.csv')
 print(data)
 print(data['name'])
@@ -47,6 +47,16 @@ print(data1)
 #specific column with specific value
 data.fillna({'name':'random','gender':'unknown'},inplace=True)
 print(data)
+df5=pd.DataFrame({'ord_no':[70001.0,np.nan,70002.0,70004.0,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,70013.0],
+'purch_amt':[150.50,np.nan,65.26,110.50,948.50,np.nan,5760.00,1983.43,np.nan,250.45,75.29,3045.60],
+'sale_amt':[10.50,20.65,np.nan,11.50,98.50,np.nan,57.00,19.43,np.nan,25.45,75.29,35.60],
+'ord_date':['2012-10-05','2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[3002,3001,3001,3003,3002,3001,3001,3004,3003,3002,3001,3001],
+'salesman_id':[5002.0,5003.0,5001.0,np.nan,5002.0,5001.0,5001.0,np.nan,5003.0,5002.0,5003.0,np.nan]})
+print(df5)
+print(df5.ffill())
+print(df5.assign(ord_no=df5.ord_no.ffill()))
+print(df5.bfill())
 #removing a row
 #data=data.drop(6)
 #print(data)
@@ -595,6 +605,16 @@ print('to modify original dataframe')
 print(df.dropna(inplace=True)) #or #df=df.dropna()
 print(df)"""
 
+#assign()
+"""df5=pd.DataFrame({'ord_no':[70001.0,np.nan,70002.0,70004.0,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,70013.0],
+'purch_amt':[150.50,np.nan,65.26,110.50,948.50,np.nan,5760.00,1983.43,np.nan,250.45,75.29,3045.60],
+'sale_amt':[10.50,20.65,np.nan,11.50,98.50,np.nan,57.00,19.43,np.nan,25.45,75.29,35.60],
+'ord_date':['2012-10-05','2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[3002,3001,3001,3003,3002,3001,3001,3004,3003,3002,3001,3001],
+'salesman_id':[5002.0,5003.0,5001.0,np.nan,5002.0,5001.0,5001.0,np.nan,5003.0,5002.0,5003.0,np.nan]})
+print(df5)
+print(df5.assign(ord_no=df5.ord_no.ffill()))"""
+
 #value_counts()
 """df=pd.read_csv('test1.csv')
 print(df)
@@ -743,8 +763,10 @@ result = s23[(s23 > s23.shift(1)) & (s23 > s23.shift(-1))].index.tolist()
 print(s23)"""
 
 #to_frame()
-"""s27=pd.Series(list('ABCDE'))
-print(s27.to_frame().reset_index())"""
+"""
+s27=pd.Series(list('ABCDE'))
+print(s27.to_frame().reset_index())
+"""
 
 #iterrows()
 """d7=pd.DataFrame([{'name':'Ana','score':12.5},{'name':'Dima','score':9},{'name':'Kat','score':16.5}])
@@ -868,7 +890,7 @@ df11['dept_avg']=df11.groupby('dept')['salary'].transform('mean')
 print(df11)"""
 
 #------------------------Pandas questions---------------------------
-#pandas data Series
+#pandas Series
 """s=pd.Series([1,2,3,4,5,6])
 print(s)
 print(type(s))
@@ -1775,3 +1797,66 @@ s7=pd.Series(range(25),index=dataset1)
 print(s7['2030'])
 p1=pd.Period('2026','Y')
 print(p1)"""
+
+#handling missing values
+"""df1=pd.DataFrame({'ord_no':[70001.0,np.nan,70002.0,70004.0,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,70013.0],
+'purch_amt':[150.50,270.65,65.26,110.50,948.50,2400.60,5760.00,1983.43,2480.40,250.45,75.29,3045.60],
+'ord_date':['2012-10-05','2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[3002,3001,3001,3003,3002,3001,3001,3004,3003,3002,3001,3001],
+'salesman_id':[5002.0,5003.0,5001.0,np.nan,5002.0,5001.0,5001.0,np.nan,5003.0,5002.0,5003.0,np.nan]})
+print(df1)
+print(df1.isnull())
+print(df1.isnull().any(axis=1)) #row wise atleast 1 empty check
+print(df1.isnull().any(axis=0)) #col. wise atleast 1 empty check
+print(df1.isnull().sum()) #find no. of null col wise(counting each row's null as one) meaning axis=row default
+df2=df=pd.DataFrame({'ord_no':[70001,np.nan,70002,70004,np.nan,70005,'--',70010,70003,70012,np.nan,70013],
+'purch_amt':[150.5,270.65,65.26,110.5,948.5,2400.6,5760,np.nan,12.43,2480.4,250.45,3045.6],
+'ord_date':[np.nan,'2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[3002,3001,3001,3003,3002,3001,3001,3004,'--',3002,3001,3001],
+'salesman_id':[5002,5003,'?',5001,np.nan,5002,5001,'?',5003,5002,5003,'--']})
+print(df2)
+print(df2.replace(['?','--'],np.nan).isnull())
+print(df1)
+print(df1.dropna(axis=0)) #drop row
+print(df1.dropna(axis='rows')) #drop row
+print(df1.dropna(axis=1)) #drop col
+print(df1.dropna(axis='columns')) #drop col
+df3=pd.DataFrame({'ord_no':[np.nan,np.nan,70002.0,70004.0,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,70013.0],
+'purch_amt':[np.nan,270.65,65.26,110.50,948.50,2400.60,5760.00,1983.43,2480.40,250.45,75.29,3045.60],
+'ord_date':[np.nan,'2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[np.nan,3001.0,3001.0,3003.0,3002.0,3001.0,3001.0,3004.0,3003.0,3002.0,3001.0,3001.0]})
+print(df3)
+print(df3.dropna(axis='rows',how='all')) #drop rows with all missing values
+df4=pd.DataFrame({'ord_no':[np.nan,np.nan,70002.0,np.nan,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,np.nan],
+'purch_amt':[np.nan,270.65,65.26,np.nan,948.50,2400.60,5760.00,1983.43,2480.40,250.45,75.29,np.nan],
+'ord_date':[np.nan,'2012-09-10',np.nan,np.nan,'2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17',np.nan],
+'customer_id':[np.nan,3001.0,3001.0,np.nan,3002.0,3001.0,3001.0,3004.0,3003.0,3002.0,3001.0,np.nan]})
+print(df4)
+print(df4[df4.isnull().sum(axis='columns')>=2]) #keep rows with atleast 2 missing values
+print(df4.dropna(subset=['ord_no','customer_id']))
+print(df4.dropna())
+print(df4.isnull().sum().sum())
+df4['ord_no']=df4['ord_no'].fillna(0)
+print(df4)
+df5=pd.DataFrame({'ord_no':[70001.0,np.nan,70002.0,70004.0,np.nan,70005.0,np.nan,70010.0,70003.0,70012.0,np.nan,70013.0],
+'purch_amt':[150.50,np.nan,65.26,110.50,948.50,np.nan,5760.00,1983.43,np.nan,250.45,75.29,3045.60],
+'sale_amt':[10.50,20.65,np.nan,11.50,98.50,np.nan,57.00,19.43,np.nan,25.45,75.29,35.60],
+'ord_date':['2012-10-05','2012-09-10',np.nan,'2012-08-17','2012-09-10','2012-07-27','2012-09-10','2012-10-10','2012-10-10','2012-06-27','2012-08-17','2012-04-25'],
+'customer_id':[3002,3001,3001,3003,3002,3001,3001,3004,3003,3002,3001,3001],
+'salesman_id':[5002.0,5003.0,5001.0,np.nan,5002.0,5001.0,5001.0,np.nan,5003.0,5002.0,5003.0,np.nan]})
+print(df5)
+print(df5.ffill())
+print(df5.assign(ord_no=df5.ord_no.ffill()))
+print(df5.bfill())
+print(df5)
+print(df5.fillna({'purch_amt':df5['purch_amt'].mean(),'sale_amt':df5['sale_amt'].median()}))
+print(df5['purch_amt'].interpolate(method='linear',direction='forward'))
+print(df5['purch_amt'].interpolate())
+print(df5['ord_no'].isnull().sum())
+print(df5.isnull().sum().sum())
+print(df5)
+print(df5[df5.isnull().any(axis='columns')].index.values)
+print(df5.fillna(df5.mode().iloc[0]))
+df6=pd.DataFrame({'A': [1, 1, 2, 2, np.nan],'B': ['x', 'x', 'y', np.nan, np.nan]})
+print(df6.fillna(df6.mode()))
+print(df6.fillna(df6.mode().iloc[0]))"""
