@@ -335,6 +335,8 @@ print(df7)
 print(df6.combine_first(df7))"""
 
 #pivot and pivot_table
+#pivot- if duplicates throws error
+#pivot-table -- allow duplicate handling by aggfunc
 """df=pd.read_csv('pivot.csv')
 print(df)
 df1=df.pivot(index='date',columns='city')
@@ -359,7 +361,42 @@ print(df4)
 # - Use the monthly groups as the pivot table index
 # - columns='city' creates separate columns for each city
 # - values defaults to all numeric columns
-# - aggfunc defaults to mean"""
+# - aggfunc defaults to mean
+df1=pd.DataFrame({'OrderDate':['1-6-18','1-23-18','2-9-18','2-26-18','3-15-18','4-1-18','4-18-18','5-5-18','5-22-18','6-8-18','6-25-18','7-12-18','7-29-18','8-15-18','9-1-18','9-18-18','10-5-18','10-22-18','11-8-18','11-25-18','12-12-18','12-29-18','1-15-19','2-1-19','2-18-19','3-7-19','3-24-19','4-10-19','4-27-19','5-14-19','5-31-19','6-17-19','7-4-19','7-21-19','8-7-19','8-24-19','9-10-19','9-27-19','10-14-19','10-31-19','11-17-19','12-4-19','12-21-19'],
+    'Region':['East','Central','Central','Central','West','East','Central','Central','West','East','Central','East','East','East','Central','East','Central','East','East','Central','Central','East','Central','Central','East','West','Central','Central','East','Central','Central','Central','East','Central','Central','West','Central','West','West','Central','Central','Central','Central'],
+    'Manager':['Martha','Hermann','Hermann','Timothy','Timothy','Martha','Martha','Hermann','Douglas','Martha','Hermann','Martha','Douglas','Martha','Douglas','Martha','Hermann','Martha','Douglas','Hermann','Douglas','Douglas','Timothy','Douglas','Martha','Timothy','Hermann','Martha','Martha','Timothy','Timothy','Hermann','Martha','Hermann','Hermann','Timothy','Timothy','Timothy','Douglas','Martha','Hermann','Hermann','Martha'],
+    'SalesMan':['Alexander','Shelli','Luis','David','Stephen','Alexander','Steven','Luis','Michael','Alexander','Sigal','Diana','Karen','Alexander','John','Alexander','Sigal','Alexander','Karen','Shelli','John','Karen','David','John','Alexander','Stephen','Luis','Steven','Diana','David','David','Shelli','Alexander','Sigal','Shelli','Stephen','David','Stephen','Michael','Steven','Luis','Luis','Steven'],
+    'Item':['Television','Home Theater','Television','Cell Phone','Television','Home Theater','Television','Television','Television','Home Theater','Television','Home Theater','Home Theater','Television','Desk','Video Games','Home Theater','Cell Phone','Cell Phone','Video Games','Television','Video Games','Home Theater','Home Theater','Home Theater','Home Theater','Video Games','Television','Cell Phone','Television','Home Theater','Desk','Video Games','Video Games','Video Games','Desk','Television','Cell Phone','Home Theater','Television','Home Theater','Home Theater','Home Theater'],
+    'Units':[95,50,36,27,56,60,75,90,32,60,90,29,81,35,2,16,28,64,15,96,67,74,46,87,4,7,50,66,96,53,80,5,62,55,42,3,7,76,57,14,11,94,28],
+    'Unit_price':[1198,500,1198,225,1198,500,1198,1198,1198,500,1198,500,500,1198,125,58.5,500,225,225,58.5,1198,58.5,500,500,500,500,58.5,1198,225,1198,500,125,58.5,58.5,58.5,125,1198,225,500,1198,500,500,500],
+    'Sale_amt':[113810,25000,43128,6075,67088,30000,89850,107820,38336,30000,107820,14500,40500,41930,250,936,14000,14400,3375,5616,80266,4329,23000,43500,2000,3500,2925,79068,21600,63494,40000,625,3627,3217.5,2457,375,8386,17100,28500,16772,5500,47000,14000]})
+print(df1)
+temp1=df1.pivot_table(index=['Region','Manager','SalesMan'],values='Sale_amt',aggfunc='sum')
+#1st way for get for douglas
+temp2=temp1.reset_index(level=1)
+print(temp2[temp2['Manager']=='Douglas'])
+#2nd way for get for douglas
+print(temp1.query("Manager == 'Douglas'"))
+#3rd way
+temp3=df1[df1.Manager=='Douglas']
+print(temp3.pivot_table(index=['Region','Manager','SalesMan'],values='Sale_amt',aggfunc='sum'))
+temp4=df1.query("`Item` =='Television' or `Item` =='Home Theater'")
+print(temp4.pivot_table(index=['Region','Item'],values='Units',aggfunc='sum'))
+df2=pd.read_csv('titanic.csv')
+#print(pd.cut(df2['age'],bins=[0,10,30,60,80]))
+#temp=df2.groupby(pd.cut(df2['age'],bins=[0,10,30,60,80]))
+#for age,age_df in temp:
+#    print(age)
+#    print(age_df)
+#df2['categ_age']=pd.cut(df2['age'],bins=[0,10,30,60,80])
+#print(df2.pivot_table(index=['sex','categ_age'],columns='class',values='survived',aggfunc='sum'))
+#print(df2.pivot_table(index=['sex',pd.cut(df2['age'],bins=[0,10,30,60,80])],columns='class',values='survived',aggfunc='mean'))
+#categage=pd.cut(df2['age'],bins=[0,10,30,60,80])
+#categfare=pd.qcut(df2['fare'],q=2)
+#print(df2.pivot_table(index=['sex',categage],columns=['class',categfare],values='survived',aggfunc='mean'))
+#can use fiff function for diff columns
+print(df2.pivot_table(index=['sex','class'],aggfunc={'survived':'sum','fare':'mean'}))
+"""
 
 #datetime
 """df4=pd.read_csv('pivot2.csv')
@@ -1860,3 +1897,65 @@ print(df5.fillna(df5.mode().iloc[0]))
 df6=pd.DataFrame({'A': [1, 1, 2, 2, np.nan],'B': ['x', 'x', 'y', np.nan, np.nan]})
 print(df6.fillna(df6.mode()))
 print(df6.fillna(df6.mode().iloc[0]))"""
+
+#pivot-table questions
+"""df1=pd.DataFrame({'OrderDate':['1-6-18','1-23-18','2-9-18','2-26-18','3-15-18','4-1-18','4-18-18','5-5-18','5-22-18','6-8-18','6-25-18','7-12-18','7-29-18','8-15-18','9-1-18','9-18-18','10-5-18','10-22-18','11-8-18','11-25-18','12-12-18','12-29-18','1-15-19','2-1-19','2-18-19','3-7-19','3-24-19','4-10-19','4-27-19','5-14-19','5-31-19','6-17-19','7-4-19','7-21-19','8-7-19','8-24-19','9-10-19','9-27-19','10-14-19','10-31-19','11-17-19','12-4-19','12-21-19'],
+    'Region':['East','Central','Central','Central','West','East','Central','Central','West','East','Central','East','East','East','Central','East','Central','East','East','Central','Central','East','Central','Central','East','West','Central','Central','East','Central','Central','Central','East','Central','Central','West','Central','West','West','Central','Central','Central','Central'],
+    'Manager':['Martha','Hermann','Hermann','Timothy','Timothy','Martha','Martha','Hermann','Douglas','Martha','Hermann','Martha','Douglas','Martha','Douglas','Martha','Hermann','Martha','Douglas','Hermann','Douglas','Douglas','Timothy','Douglas','Martha','Timothy','Hermann','Martha','Martha','Timothy','Timothy','Hermann','Martha','Hermann','Hermann','Timothy','Timothy','Timothy','Douglas','Martha','Hermann','Hermann','Martha'],
+    'SalesMan':['Alexander','Shelli','Luis','David','Stephen','Alexander','Steven','Luis','Michael','Alexander','Sigal','Diana','Karen','Alexander','John','Alexander','Sigal','Alexander','Karen','Shelli','John','Karen','David','John','Alexander','Stephen','Luis','Steven','Diana','David','David','Shelli','Alexander','Sigal','Shelli','Stephen','David','Stephen','Michael','Steven','Luis','Luis','Steven'],
+    'Item':['Television','Home Theater','Television','Cell Phone','Television','Home Theater','Television','Television','Television','Home Theater','Television','Home Theater','Home Theater','Television','Desk','Video Games','Home Theater','Cell Phone','Cell Phone','Video Games','Television','Video Games','Home Theater','Home Theater','Home Theater','Home Theater','Video Games','Television','Cell Phone','Television','Home Theater','Desk','Video Games','Video Games','Video Games','Desk','Television','Cell Phone','Home Theater','Television','Home Theater','Home Theater','Home Theater'],
+    'Units':[95,50,36,27,56,60,75,90,32,60,90,29,81,35,2,16,28,64,15,96,67,74,46,87,4,7,50,66,96,53,80,5,62,55,42,3,7,76,57,14,11,94,28],
+    'Unit_price':[1198,500,1198,225,1198,500,1198,1198,1198,500,1198,500,500,1198,125,58.5,500,225,225,58.5,1198,58.5,500,500,500,500,58.5,1198,225,1198,500,125,58.5,58.5,58.5,125,1198,225,500,1198,500,500,500],
+    'Sale_amt':[113810,25000,43128,6075,67088,30000,89850,107820,38336,30000,107820,14500,40500,41930,250,936,14000,14400,3375,5616,80266,4329,23000,43500,2000,3500,2925,79068,21600,63494,40000,625,3627,3217.5,2457,375,8386,17100,28500,16772,5500,47000,14000]})
+print(df1)
+print(df1.pivot_table(index=['Item','Unit_price'],aggfunc='count'))
+print(df1.pivot_table(index=['Region','Manager'],values='Sale_amt',aggfunc='sum'))
+print(df1.pivot_table(index=['Region','Manager','SalesMan'],values='Sale_amt',aggfunc='sum'))
+print(df1.pivot_table(index='Item',values='Units',aggfunc='sum'))
+print(df1.pivot_table(index='Region',values='Sale_amt',aggfunc='sum'))
+print(df1.pivot_table(index=['Region','Item'],values='Units',aggfunc='sum'))
+print(df1.pivot_table(index='Manager',values='Sale_amt',aggfunc=['count','mean']))
+print(df1.pivot_table(index=['Manager','SalesMan'],values='Sale_amt',aggfunc='sum',margins=True))
+temp1=df1.pivot_table(index=['Region','Manager','SalesMan'],values='Sale_amt',aggfunc='sum')
+#1st way for get for douglas
+temp2=temp1.reset_index(level=1)
+print(temp2[temp2['Manager']=='Douglas'])
+#2nd way for get for douglas
+print(temp1.query("Manager == 'Douglas'"))
+#3rd way
+temp3=df1[df1.Manager=='Douglas']
+print(temp3.pivot_table(index=['Region','Manager','SalesMan'],values='Sale_amt',aggfunc='sum'))
+temp4=df1.query("`Item` =='Television' or `Item` =='Home Theater'")
+print(temp4.pivot_table(index=['Region','Item'],values='Units',aggfunc='sum'))
+print(df1.pivot_table(index='Item',values='Sale_amt',aggfunc=['max','min']))
+
+df2=pd.read_csv('titanic.csv')
+print(df2)
+print(df2.info())
+print(df2.columns)
+print(len(df2)) #no of records/rows
+print(len(df2.columns)) #no of columns
+print(df2.dtypes)
+print(df2.pivot_table(index=['sex','age'],aggfunc='count'))
+print(df2.pivot_table(index='sex',columns='class',values='survived',aggfunc='mean'))
+print(df2.pivot_table(index='sex',values='survived',aggfunc='mean'))
+print(df2.pivot_table(index=['sex','age'],columns='class',values='survived',aggfunc='mean'))
+print(pd.cut(df2['age'],bins=[0,10,30,60,80]))
+temp=df2.groupby(pd.cut(df2['age'],bins=[0,10,30,60,80]))
+for age,age_df in temp:
+    print(age)
+    print(age_df)
+df2['categ_age']=pd.cut(df2['age'],bins=[0,10,30,60,80])
+print(df2.pivot_table(index=['sex','categ_age'],columns='class',values='survived',aggfunc='sum'))
+print(df2.pivot_table(index=['sex',pd.cut(df2['age'],bins=[0,10,30,60,80])],columns='class',values='survived',aggfunc='mean'))
+categage=pd.cut(df2['age'],bins=[0,10,30,60,80])
+categfare=pd.qcut(df2['fare'],q=2)
+print(df2.pivot_table(index=['sex',categage],columns=['class',categfare],values='survived',aggfunc='mean'))
+print(df2.pivot_table(index='sex',columns='class',aggfunc='size'))
+print(df2.pivot_table(index=['sex','class'],values='survived',aggfunc='mean'))
+print(df2.pivot_table(index='class',values='survived',aggfunc='sum'))
+print(df2.pivot_table(index='sex',columns='class',aggfunc='size'))
+print(df2.pivot_table(index=['sex','class'],aggfunc={'survived':'sum','fare':'mean'}))
+print(df2.value_counts('who'))
+print(df2.pivot_table(index='who',aggfunc='size'))
+print(df2.pivot_table(index='sex',columns='alone',values='survived',aggfunc='mean'))"""
