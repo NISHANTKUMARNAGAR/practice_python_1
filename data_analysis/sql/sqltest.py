@@ -81,3 +81,57 @@ SELECT job_id,AVG(salary) FROM employees GROUP BY job_id HAVING AVG(salary)>8000
 SELECT employee_id,end_date FROM job_history GROUP BY employee_id HAVING COUNT(*)>1
 SELECT * FROM jobs GROUP BY job_id HAVING COUNT(*)=1 ORDER BY job_title DESC
 """
+
+#sql joins and sql join in hr database
+#table3
+"""
+SELECT s.name,c.cust_name,c.city FROM salesman s INNER JOIN customer c on s.city=c.city
+SELECT o.ord_no,o.purch_amt,c.cust_name,c.city FROM customer c INNER JOIN (SELECT * FROM orders WHERE purch_amt BETWEEN 500 AND 2000) AS o on c.customer_id=o.customer_id
+SELECT c.cust_name,c.city,s.salesman_id,s.commission FROM customer c INNER JOIN salesman s on c.salesman_id=s.salesman_id
+SELECT c.cust_name,c.city,c.salesman_id,s.commission FROM customer c INNER JOIN (SELECT * FROM salesman WHERE commission>0.12) AS s on c.salesman_id=s.salesman_id
+SELECT c.cust_name,c.city,s.salesman_id,s.city,s.commission FROM customer c INNER JOIN (SELECT * FROM salesman WHERE commission>0.12) AS s on c.salesman_id=s.salesman_id WHERE c.city<>s.city
+SELECT o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'Customer',c.grade,s.name as 'Salesman',s.commission FROM orders o INNER JOIN customer c on o.customer_id=c.customer_id INNER JOIN salesman s on o.salesman_id=s.salesman_id
+SELECT * FROM orders NATURAL JOIN customer NATURAL JOIN salesman
+SELECT c.cust_name,c.city,c.grade,s.name,s.city FROM (SELECT * FROM customer WHERE grade<300) AS c INNER JOIN salesman s ON c.salesman_id=s.salesman_id ORDER BY c.customer_id ASC
+SELECT c.cust_name,c.city,o.ord_no,o.ord_date,o.purch_amt FROM customer c LEFT JOIN orders o ON c.customer_id=o.customer_id ORDER BY o.ord_date ASC
+SELECT c.cust_name,c.city,o.ord_no,o.ord_date,o.purch_amt,s.name,s.commission FROM customer c LEFT JOIN orders o ON c.customer_id=o.customer_id LEFT JOIN salesman s ON c.salesman_id=s.salesman_id
+SELECT * FROM salesman s LEFT JOIN customer c ON c.salesman_id = s.salesman_id ORDER BY s.name;
+SELECT c.cust_name,c.city,c.grade,o.ord_no,o.ord_date,o.purch_amt FROM customer c LEFT JOIN orders o on c.customer_id=o.customer_id FULL OUTER JOIN salesman s on s.salesman_id=c.salesman_id 
+SELECT * FROM (SELECT * FROM customer WHERE grade IS NOT NULL) AS c LEFT JOIN (SELECT * FROM orders WHERE purch_amt>=2000) AS o ON c.customer_id=o.customer_id FULL OUTER JOIN salesman s ON c.salesman_id=s.salesman_id
+SELECT c.cust_name,c.city,o.ord_no,o.ord_date,o.purch_amt FROM customer c RIGHT JOIN orders o ON c.customer_id=o.customer_id
+SELECT c.cust_name,c.city,o.ord_no,o.ord_date,o.purch_amt FROM (SELECT * FROM customer WHERE grade IS NOT NULL) AS c RIGHT JOIN orders o ON c.customer_id=o.customer_id
+SELECT * FROM customer CROSS JOIN salesman
+SELECT * FROM (SELECT * FROM customer WHERE grade IS NOT NULL) CROSS JOIN (SELECT * FROM salesman WHERE city IS NOT NULL)
+SELECT * FROM (SELECT * FROM customer WHERE grade IS NOT NULL) AS c CROSS JOIN (SELECT * FROM salesman WHERE city IS NOT NULL) AS s WHERE s.city<>c.city
+SELECT * FROM company_mast AS c CROSS JOIN item_mast AS i WHERE c.com_id=i.pro_com
+SELECT i.pro_name,i.pro_price,c.com_name FROM company_mast AS c INNER JOIN item_mast AS i WHERE c.com_id=i.pro_com
+SELECT AVG(i.pro_price),c.com_name FROM company_mast AS c INNER JOIN item_mast AS i WHERE c.com_id=i.pro_com GROUP BY c.com_name
+SELECT AVG(i.pro_price),c.com_name FROM company_mast AS c INNER JOIN item_mast AS i WHERE c.com_id=i.pro_com GROUP BY c.com_name HAVING AVG(i.pro_price)>=350
+#next two are 2 ways to same question
+SELECT a.pro_name,b.mostexp,a.acomname FROM (SELECT c.com_name AS acomname,i.pro_name,i.pro_price AS acompprice FROM company_mast AS c INNER JOIN item_mast AS i ON c.com_id=i.pro_com) AS a INNER JOIN (SELECT MAX(i.pro_price) AS mostexp,c.com_name AS bcomname FROM company_mast AS c INNER JOIN item_mast AS i ON c.com_id=i.pro_com GROUP BY c.com_name) AS b on a.acompprice=b.mostexp AND a.acomname=b.bcomname
+SELECT A.pro_name, A.pro_price, F.com_name FROM item_mast A INNER JOIN company_mast F ON A.pro_com = F.com_id AND A.pro_price = (SELECT MAX(A.pro_price) FROM item_mast A WHERE A.pro_com = F.com_id)
+SELECT d.dpt_name FROM (SELECT emp_dept FROM emp_details GROUP BY emp_dept HAVING COUNT(*)>2) AS e INNER JOIN emp_department AS d on e.emp_dept=d.dpt_code
+SELECT c.cust_name FROM customer c LEFT JOIN orders o ON c.customer_id = o.customer_id WHERE o.customer_id IS NULL;
+SELECT d.department_name,e.first_name || ' ' || e.last_name AS full_name FROM departments d INNER JOIN employees e ON d.manager_id = e.employee_id;
+#table 2 (self join)
+SELECT e.first_name AS worker,m.first_name AS manager FROM employees e JOIN employees m ON m.employee_id=e.manager_id                                     # employee - manager pair
+SELECT e.first_name AS worker,m.first_name AS manager FROM employees e LEFT JOIN employees m ON m.employee_id=e.manager_id                                # match + employee without manager
+SELECT e.first_name AS worker,m.first_name AS manager FROM employees e RIGHT JOIN employees m ON m.employee_id=e.manager_id                               # match + manager without employee
+SELECT e.first_name AS worker,m.first_name AS manager FROM employees e LEFT JOIN employees m ON m.employee_id=e.manager_id WHERE e.manager_id IS NULL     # employee without manager
+SELECT e.first_name AS worker,m.first_name AS manager FROM employees e RIGHT JOIN employees m ON m.employee_id=e.manager_id WHERE m.employee_id IS NULL   # manager without employee
+SELECT e.first_name,e.last_name,e.department_id FROM employees AS e INNER JOIN (SELECT * FROM employees WHERE last_name='Taylor') AS m on m.department_id=e.department_id
+#non-equi/range join
+#table 2's employee and a new table 
+#job_grade
+------------+-----------+ -----------
+GRADE_LEVEL | LOWEST_SAL|HIGHEST_SAL 
+------------+-----------+ -----------
+A              1000        2999
+B              3000        5999
+C              6000        9999
+D             10000       14999
+E             15000       24999
+F             25000       40000
+
+SELECT e.first_name,e.last_name,e.salary,j.grade_level FROM employees e INNER JOIN job_grade j ON e.salary BETWEEN j.lowest_sal AND j.highest_sal
+"""
