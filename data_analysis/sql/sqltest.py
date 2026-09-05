@@ -135,3 +135,50 @@ F             25000       40000
 
 SELECT e.first_name,e.last_name,e.salary,j.grade_level FROM employees e INNER JOIN job_grade j ON e.salary BETWEEN j.lowest_sal AND j.highest_sal
 """
+
+#sql CASE,WHEN,THEN,ESLE,END,combining query results (union/union all etc)
+"""
+#CASE,WHEN,THEN,ESLE,END use table 2
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 THEN 'high' WHEN salary BETWEEN 3000 AND 4999 THEN 'medium' ELSE 'low' END AS 'salary_category' FROM employees
+SELECT first_name,last_name,department_id,CASE department_id WHEN 100 THEN 'management' WHEN 200 THEN 'technical' WHEN 300 THEN 'support' ELSE 'other' END AS 'department_type' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>5000 THEN 'above average' WHEN salary BETWEEN 3000 AND 5000 THEN 'average' ELSE 'below average' END AS 'salary_status' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>5000 THEN 0.2*salary WHEN salary BETWEEN 3000 AND 5000 THEN 0.1*salary ELSE 0.05*salary END AS 'salary_bonus' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 OR department_id=100 THEN 'high priority' ELSE 'normal priority' END AS 'salary_priority' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary IS NOT NULL THEN 'salary available' WHEN salary IS NULL THEN 'salary missing' END AS 'salary_info' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 THEN 'high' WHEN salary<5000 THEN 'low' END AS 'salary_order' FROM employees ORDER BY salary_order ASC
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 AND department_id=100 THEN 0.2*salary WHEN salary>=5000 AND department_id<>100 THEN 0.1*salary ELSE 0 END AS 'salary_bonus' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 THEN CASE WHEN department_id=100 THEN "high_ management" ELSE "high_staff" END WHEN salary<5000 THEN 'low salary' END AS 'salary_label' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>5000 THEN 'high' WHEN salary BETWEEN 3000 AND 5000 THEN 'medium' WHEN salary<3000 THEN 'low'  END AS 'salary_category' FROM employees ORDER BY CASE WHEN salary_category='high' THEN 1 WHEN salary_category='medium' THEN 2 WHEN salary_category='low' THEN 3 END
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 THEN ROUND(0.2*salary,2) WHEN salary BETWEEN 3000 AND 4999 THEN ROUND(0.1*salary,2) WHEN salary<3000 THEN ROUND(0.05*salary,2) END AS 'salary_bonus' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary IS NULL THEN 'not provided' ELSE salary END AS 'salary_display' FROM employees
+SELECT first_name,last_name,salary,CASE WHEN salary>=5000 THEN CASE WHEN salary>=10000 THEN 'very high' ELSE 'high' END WHEN salary<5000 THEN CASE WHEN salary>=3000 THEN 'medium' ELSE 'low' END END AS salary_level FROM employees
+SELECT SUM(CASE WHEN salary>=5000 THEN 1 ELSE 0 END) FROM employees
+SELECT SUM(CASE WHEN salary>=5000 THEN 1 ELSE 0 END)  as high_salary_count,SUM(CASE WHEN salary<5000 THEN 1 ELSE 0 END) as low_salary_count FROM employees
+#combining query results (union/union all etc) use table 3
+SELECT salesman_id AS id,name,'salesman' AS label FROM salesman WHERE city='London' UNION SELECT customer_id,cust_name,'customer' FROM customer WHERE city='London'
+SELECT customer_id,salesman_id FROM orders UNION SELECT customer_id,salesman_id FROM customer
+SELECT salesman_id,city FROM customer UNION ALL SELECT salesman_id,city FROM salesman
+SELECT salesman_id,city FROM salesman EXCEPT SELECT salesman_id,city FROM customer
+SELECT city FROM salesman INTERSECT SELECT city FROM customer ORDER BY city
+SELECT city FROM customer EXCEPT SELECT city FROM salesman UNION SELECT city FROM salesman EXCEPT SELECT city FROM customer
+#combining above 2 topics using table 3
+#https://www.w3resource.com/sql-exercises/union/sql-union.php
+#q4--------------------------------------
+SELECT s.name,o3.ord_no,o3.ord_date,o3.salesman_id,"highest" AS label FROM salesman s INNER JOIN (SELECT o1.ord_no,o1.ord_date,o1.salesman_id FROM orders o1 INNER JOIN (SELECT MAX(purch_amt) AS mostexp,ord_date FROM orders GROUP BY ord_date) AS o2  ON o1.purch_amt=o2.mostexp AND o1.ord_date=o2.ord_date) AS o3 on o3.salesman_id=s.salesman_id 
+UNION 
+SELECT s.name,o3.ord_no,o3.ord_date,o3.salesman_id,"lowest" FROM salesman s INNER JOIN (SELECT o1.ord_no,o1.ord_date,o1.salesman_id FROM orders o1 INNER JOIN (SELECT MIN(purch_amt) AS mostcheap,ord_date FROM orders GROUP BY ord_date) AS o2  ON o1.purch_amt=o2.mostcheap AND o1.ord_date=o2.ord_date) AS o3 on o3.salesman_id=s.salesman_id
+#q5---------------------------------------
+SELECT o3.salesman_id,s.name,o3.ord_no,"highest" AS label,o3.ord_date FROM salesman s INNER JOIN (SELECT o1.ord_no,o1.ord_date,o1.salesman_id FROM orders o1 INNER JOIN (SELECT MAX(purch_amt) AS mostexp,ord_date FROM orders GROUP BY ord_date) AS o2  ON o1.purch_amt=o2.mostexp AND o1.ord_date=o2.ord_date) AS o3 on o3.salesman_id=s.salesman_id
+UNION
+SELECT o3.salesman_id,s.name,o3.ord_no,"lowest",o3.ord_date FROM salesman s INNER JOIN (SELECT o1.ord_no,o1.ord_date,o1.salesman_id FROM orders o1 INNER JOIN (SELECT MIN(purch_amt) AS mostcheap,ord_date FROM orders GROUP BY ord_date) AS o2  ON o1.purch_amt=o2.mostcheap AND o1.ord_date=o2.ord_date) AS o3 on o3.salesman_id=s.salesman_id 
+ORDER BY ord_no
+#q6---------------------------------------
+SELECT s.salesman_id,s.name as salesman_name,CASE WHEN c.cust_name IS NOT NULL THEN cust_name WHEN c.cust_name IS NULL THEN 'NO MATCH' END AS customer_name,s.commission FROM salesman s LEFT JOIN customer c ON s.city=c.city ORDER BY salesman_name DESC
+#q7---------------------------------------
+SELECT DISTINCT s.salesman_id,s.name as salesman_name,s.city,CASE WHEN c.cust_name IS NOT NULL THEN 'MATCHED' WHEN c.cust_name IS NULL THEN 'NO MATCH' END AS city_match FROM salesman s LEFT JOIN customer c ON s.city=c.city
+#q8--------------------------------------
+SELECT customer_id,city,grade,"high" AS rating FROM customer WHERE grade>=300 UNION SELECT customer_id,city,grade,"low" AS rating FROM customer WHERE grade<300
+#q9--------------------------------------
+SELECT c.cust_name AS name,c.customer_id AS id FROM customer c INNER JOIN orders o ON c.customer_id=o.customer_id GROUP BY c.customer_id HAVING COUNT(*)>1 UNION SELECT s.name,s.salesman_id FROM salesman s INNER JOIN orders o ON s.salesman_id=o.salesman_id GROUP BY s.salesman_id HAVING COUNT(*)>1
+"""
+
