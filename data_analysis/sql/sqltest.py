@@ -182,3 +182,30 @@ SELECT customer_id,city,grade,"high" AS rating FROM customer WHERE grade>=300 UN
 SELECT c.cust_name AS name,c.customer_id AS id FROM customer c INNER JOIN orders o ON c.customer_id=o.customer_id GROUP BY c.customer_id HAVING COUNT(*)>1 UNION SELECT s.name,s.salesman_id FROM salesman s INNER JOIN orders o ON s.salesman_id=o.salesman_id GROUP BY s.salesman_id HAVING COUNT(*)>1
 """
 
+#sql fomatting output exercises
+#table 3
+"""
+SELECT salesman_id,name,city,commission*100||'%' FROM salesman
+SELECT 'for '||ord_date||' there are '||COUNT(*)||' orders' FROM orders GROUP BY ord_date
+SELECT name,city,SUBSTRING(name,1,3) AS name_start FROM salesman
+SELECT UPPER(name),LOWER(city) FROM salesman
+SELECT name,city,name||'-'||city AS salesman_info FROM salesman
+SELECT name,city,SUBSTRING(name,-3) AS name_end FROM salesman
+SELECT name,city,TRIM(name) AS clean_name FROM salesman
+SELECT name,city,REPLACE(name,'a','@') AS formatted_name FROM salesman
+SELECT name,city FROM salesman WHERE LENGTH(name)>5 
+SELECT salesman_id,name,city,UPPER(name)||' | '||LOWER(city)||' | '||(commission*100)||'%' FROM salesman
+"""
+
+#null handling
+#table 4
+"""
+SELECT customer_name,phone FROM customer_contact WHERE phone IS NULL
+SELECT customer_name,COALESCE(credit_limit,0) FROM customer_contact
+SELECT first_name,last_name,salary,bonus,salary+COALESCE(bonus,0) FROM employee_pay
+SELECT order_id,product_name,quantity,unit_price,unit_price/NULLIF(quantity,0) AS price_per_unit  FROM sales_data
+SELECT unit_price-unit_price*COALESCE(discount,0) AS price_per_unit FROM sales_data
+SELECT COALESCE(phone,email,'No Contact Information') AS price_per_unit FROM customer_contact
+
+"""
+
