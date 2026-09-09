@@ -209,3 +209,40 @@ SELECT COALESCE(phone,email,'No Contact Information') AS price_per_unit FROM cus
 
 """
 
+#sql date and time
+#table 5
+"""
+SELECT first_name,hire_date FROM employees_dates WHERE hire_date BETWEEN '2022-01-01' AND '2024-12-31'
+SELECT JULIANDAY(last_promotion)-JULIANDAY(hire_date) FROM employees_dates
+SELECT * FROM orders_dates WHERE delivery_date BETWEEN order_date AND DATE(order_date,'+5 days')
+SELECT STRFTIME('%Y',order_date),COUNT(*) FROM orders_dates GROUP BY STRFTIME('%Y',order_date)
+SELECT STRFTIME('%Y-%m',order_date),AVG(amount) FROM orders_dates GROUP BY STRFTIME('%Y-%m',order_date)
+SELECT * FROM orders_dates WHERE delivery_date>DATE(order_date,'+5 days')
+SELECT * FROM 'employees_dates' WHERE contract_end<'2028-01-01'
+"""
+
+#sql subqueries
+#table
+"""
+SELECT first_name,last_name FROM employees WHERE salary>(SELECT salary FROM employees WHERE employee_id=163)
+SELECT first_name,last_name,department_id FROM employees WHERE salary IN (SELECT MIN(salary) FROM employees GROUP BY department_id)
+SELECT * FROM employees WHERE salary>(SELECT AVG(salary) FROM employees)
+SELECT first_name,last_name,department_id,salary FROM employees WHERE manager_id=(SELECT employee_id FROM employees WHERE first_name='Payam')
+SELECT department_id,first_name,job_id,"Finance" AS department_name FROM employees WHERE department_id=(SELECT department_id FROM departments WHERE department_name='Finance')
+SELECT * FROM employees WHERE salary BETWEEN (SELECT MIN(salary) FROM employees) AND 2500
+SELECT * FROM employees WHERE department_id NOT IN (SELECT department_id FROM departments WHERE manager_id BETWEEN 100 AND 200)
+SELECT * FROM employees WHERE salary=(SELECT MAX(salary) FROM employees WHERE salary<>(SELECT MAX(salary) FROM employees))
+SELECT * FROM employees WHERE first_name<>'Clara' AND department_id=(SELECT department_id FROM employees WHERE first_name='Clara')
+SELECT * FROM employees WHERE department_id IN (SELECT department_id FROM employees WHERE first_name LIKE '%T%')
+SELECT * FROM employees WHERE salary>(SELECT AVG(salary) FROM employees) AND department_id IN  (SELECT department_id FROM employees WHERE first_name LIKE '%J%')
+SELECT first_name,last_name,employee_id,job_id FROM employees WHERE department_id IN (SELECT department_id FROM departments WHERE location_id=(SELECT location_id FROM locations WHERE city='Toronto'))
+SELECT first_name,last_name,employee_id,job_id FROM employees WHERE salary<ANY((SELECT salary FROM employees WHERE job_title='MK_MAN')) AND job_title<>'MK_MAN'
+SELECT first_name,last_name,employee_id,job_id FROM employees WHERE salary>ALL((SELECT AVG(salary) FROM employees GROUP BY department_id))
+SELECT d.department_id,(SELECT SUM(e.salary) FROM employees e WHERE e.department_id=d.department_id) AS SALARY_SUM_PER_DEPARTMENT FROM departments d WHERE d.manager_id<>0
+SELECT employee_id,first_name||" "||last_name AS name,job_id,CASE WHEN job_id="ST_MAN" THEN "SALESMAN" WHEN job_id="IT_PROG" THEN "DEVELOPER" ELSE job_id END AS designation FROM employees
+SELECT department_name FROM departments d WHERE EXISTS (SELECT 1 FROM employees e WHERE e.department_id=d.department_id)
+SELECT last_name FROM employees WHERE salary>(SELECT AVG(salary) FROM employees) AND department_id=(SELECT department_id FROM departments WHERE department_name='IT')
+#subquery in join was done earlier in joins learning exercise
+"""
+
+#sql cte
