@@ -222,7 +222,7 @@ SELECT * FROM 'employees_dates' WHERE contract_end<'2028-01-01'
 """
 
 #sql subqueries
-#table
+#table 2
 """
 SELECT first_name,last_name FROM employees WHERE salary>(SELECT salary FROM employees WHERE employee_id=163)
 SELECT first_name,last_name,department_id FROM employees WHERE salary IN (SELECT MIN(salary) FROM employees GROUP BY department_id)
@@ -246,3 +246,15 @@ SELECT last_name FROM employees WHERE salary>(SELECT AVG(salary) FROM employees)
 """
 
 #sql cte
+#table 3
+"""
+WITH customer_total AS (SELECT customer_id,SUM(purch_amt) AS total_order_amt FROM orders GROUP BY customer_id) SELECT customer_id,total_order_amt FROM customer_total
+WITH customer_total AS (SELECT c.cust_name AS cust_name,o.purch_amt AS purch_amt FROM customer c INNER JOIN orders o  on c.customer_id=o.customer_id) SELECT cust_name,SUM(purch_amt) FROM customer_total GROUP BY cust_name HAVING SUM(purch_amt)>10000
+WITH customer_total AS (SELECT c.cust_name AS cust_name,CASE WHEN o.purch_amt IS NOT NULL THEN o.purch_amt WHEN o.purch_amt IS NULL THEN 0 END AS purch_amt FROM customer c LEFT JOIN orders o  on c.customer_id=o.customer_id) SELECT cust_name,SUM(purch_amt) FROM customer_total GROUP BY cust_name 
+WITH customer_total AS (SELECT c.cust_name AS cust_name,COALESCE(o.purch_amt,0) AS purch_amt FROM customer c LEFT JOIN orders o  on c.customer_id=o.customer_id) SELECT cust_name,SUM(purch_amt) FROM customer_total GROUP BY cust_name 
+WITH salesman_total AS (SELECT salesman_id,SUM(purch_amt) AS total_order_amt FROM orders GROUP BY salesman_id) SELECT salesman_id,total_order_amt FROM salesman_total WHERE total_order_amt=(SELECT MAX(total_order_amt) FROM salesman_total)
+WITH customer_details AS (SELECT c.cust_name AS c_name,o.customer_id AS c_id FROM customer c INNER JOIN orders o ON o.customer_id=c.customer_id),max_order_details AS (SELECT MAX(number_of_orders) AS max_orders FROM (SELECT COUNT(*)  AS number_of_orders FROM customer_details GROUP BY c_id)) SELECT c_name,c_id,COUNT(*) AS number_of_orders FROM customer_details GROUP BY c_id HAVING COUNT(*)=(SELECT max_orders FROM max_order_details)
+WITH salesman_order_details AS (SELECT salesman_id,AVG(purch_amt) AS avg_purch FROM orders GROUP BY salesman_id) SELECT o.salesman_id,o.ord_no,o.purch_amt FROM orders o WHERE o.purch_amt>(SELECT avg_purch FROM salesman_order_details s WHERE s.salesman_id=o.salesman_id)
+WITH customer_det AS (SELECT customer_id FROM orders GROUP BY customer_id HAVING SUM(purch_amt)>5000 AND COUNT(*)>=2) SELECT cust_name,customer_id FROM customer  WHERE customer_id IN (SELECT customer_id FROM customer_det)
+WITH max_sale AS (SELECT salesman_id,MAX(purch_amt) AS max_purch FROM orders GROUP BY salesman_id),salesman_details AS (SELECT salesman_id,purch_amt,ord_no FROM orders) SELECT max_sale.salesman_id,max_sale.max_purch,salesman_details.ord_no FROM max_sale INNER JOIN salesman_details ON max_sale.salesman_id=salesman_details.salesman_id AND max_sale.max_purch=salesman_details.purch_amt
+"""
