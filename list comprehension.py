@@ -1,3 +1,11 @@
+#[expression   for item in iterable   if condition]
+#[x if x > 5 else 0 for x in nums] #conditional expression
+#[x for x in nums if x > 5] #filtering
+#[x for x in nums if x > 0 and x % 2 == 0]
+#set {x * 2 for x in nums}
+#dictionary {key_expression: value_expression for item in iterable}
+#dictionary example {x: x**2 for x in range(5)} i.e. {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
 x = 2
 y = 2
 z = 2
@@ -38,3 +46,36 @@ l=[a*i for i in range(n) if i>0]
 for j in range(n):
     if(j<n-1):
         print(f"{a} * {j+1} = {l[j]}")
+
+#dictionary comprehension
+transactions = [
+    ("Alice", "food", 450),
+    ("Bob", "travel", 1200),
+    ("Alice", "travel", 800),
+    ("Charlie", "food", 300),
+    ("Bob", "food", 650),
+    ("Alice", "food", 250),
+    ("Charlie", "travel", 1500),
+    ("Bob", "travel", 400),
+    ("David", "food", 200),
+    ("Charlie", "food", 700),
+    ("David", "travel", 900),
+    ("Alice", "travel", 300)
+]
+"""their total spending
+their average transaction amount
+their highest individual transaction
+their transactions that are at least 500
+and whether all of their transactions are at least 250"""
+from collections import defaultdict
+result=defaultdict(list)
+{result[item[0]].append(item[2]) for item in transactions}
+order=sorted(list(result),key=lambda x:-sum(result[x]))
+for item in order:
+    print(item)
+    print(sum(result[item]))
+    print(sum(result[item])/len(result[item]))
+    print(max(result[item]))
+    print(list(filter(lambda x:x>=500,result[item])))
+    print(all(x>=250 for x in result[item]))
+    print('\n')

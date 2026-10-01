@@ -1,0 +1,7 @@
+A101,Aman,5000
+A102,Riya,7200
+A103,Karan,invalid
+A104,Neha,-3000
+A105,Raj,4500
+A106,Vikas
+A107,Anu,8000

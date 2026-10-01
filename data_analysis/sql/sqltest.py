@@ -185,6 +185,7 @@ SELECT c.cust_name AS name,c.customer_id AS id FROM customer c INNER JOIN orders
 #sql fomatting output exercises
 #table 3
 """
+#SUBSTRING has 3 parameter item,start position,length in sql starts at index 1
 SELECT salesman_id,name,city,commission*100||'%' FROM salesman
 SELECT 'for '||ord_date||' there are '||COUNT(*)||' orders' FROM orders GROUP BY ord_date
 SELECT name,city,SUBSTRING(name,1,3) AS name_start FROM salesman
@@ -258,3 +259,32 @@ WITH salesman_order_details AS (SELECT salesman_id,AVG(purch_amt) AS avg_purch F
 WITH customer_det AS (SELECT customer_id FROM orders GROUP BY customer_id HAVING SUM(purch_amt)>5000 AND COUNT(*)>=2) SELECT cust_name,customer_id FROM customer  WHERE customer_id IN (SELECT customer_id FROM customer_det)
 WITH max_sale AS (SELECT salesman_id,MAX(purch_amt) AS max_purch FROM orders GROUP BY salesman_id),salesman_details AS (SELECT salesman_id,purch_amt,ord_no FROM orders) SELECT max_sale.salesman_id,max_sale.max_purch,salesman_details.ord_no FROM max_sale INNER JOIN salesman_details ON max_sale.salesman_id=salesman_details.salesman_id AND max_sale.max_purch=salesman_details.purch_amt
 """
+
+#sql window functions
+#table 2,table 3
+"""SELECT employee_id,first_name,department_id,salary,AVG(salary) OVER (PARTITION BY department_id) AS avgsaldepwise FROM employees ORDER BY department_id
+SELECT ord_no,salesman_id,ord_date,purch_amt,SUM(purch_amt) OVER (PARTITION BY salesman_id ORDER BY ord_date) AS curr_sum FROM orders
+SELECT employee_id,first_name,department_id,salary,RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) FROM employees
+SELECT ord_no,salesman_id,ord_date,purch_amt,LAG(purch_amt) OVER (PARTITION BY salesman_id ORDER BY ord_date) AS pre_amt FROM orders
+SELECT employee_id,first_name,department_id,salary,salary-LAG(salary) OVER (PARTITION BY department_id ORDER BY salary) FROM employees
+SELECT employee_id,first_name,department_id,salary,MAX(salary) OVER (PARTITION BY department_id) FROM employees
+SELECT ord_no,salesman_id,ord_date,purch_amt,LEAD(purch_amt) OVER (PARTITION BY salesman_id ORDER BY ord_date) FROM orders
+SELECT ord_no,salesman_id,purch_amt,purch_amt*100/SUM(purch_amt) OVER () FROM orders
+SELECT employee_id,first_name,department_id,salary,salary*100/SUM(salary) OVER (PARTITION BY department_id) FROM employees
+SELECT ord_no,salesman_id,ord_date,purch_amt,AVG(purch_amt) OVER (PARTITION BY salesman_id ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) FROM orders
+SELECT employee_id,first_name,department_id,salary,COUNT(*) OVER (PARTITION BY department_id,salary) FROM employees
+SELECT employee_id,first_name,department_id,salary,PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY salary) FROM employees
+SELECT employee_id,first_name,department_id,salary,MAX(salary) OVER w,MIN(salary) OVER w FROM employees WINDOW w AS (PARTITION BY department_id)
+SELECT employee_id,first_name,department_id,salary,FIRST_VALUE(salary) OVER w,LAST_VALUE(salary) OVER w FROM employees WINDOW w AS (PARTITION BY department_id ORDER BY salary ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)
+WITH sal_data AS (SELECT *,RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS emp_rank FROM employees) SELECT * FROM sal_data WHERE emp_rank<3 #top 2 salary by department
+SELECT employee_id,first_name,department_id,salary,NTILE(4) OVER (PARTITION BY department_id ORDER BY salary) FROM employees
+SELECT employee_id, department_id, salary FROM employees ORDER BY AVG(salary) OVER(PARTITION BY department_id) DESC;
+"""
+
+#practical and data quality analysis
+#table 6
+"""SELECT customer_id FROM customer_data GROUP BY customer_id HAVING COUNT(*)>1 #duplicate customer_id
+SELECT * FROM customer_data WHERE email IN (SELECT email FROM customer_data GROUP BY email HAVING COUNT(*)>1) #same email used by many people
+SELECT * FROM customer_data WHERE email IS  NULL OR phone IS NULL OR city IS NULL OR signup_date IS NULL #atleast one is null btw email,phone,city,signup_date
+SELECT * FROM customer_data WHERE city<>UPPER(SUBSTRING(city,1,1))||LOWER(SUBSTRING(city,2)) OR status<>UPPER(SUBSTRING(status,1,1))||LOWER(SUBSTRING(status,2)) #inconsistent capitalization
+SELECT * FROM sales_data WHERE quantity<0 OR unit_price<0 OR discount NOT BETWEEN 0 AND 1 #removinh negative quantity or unit price or not required discount value"""

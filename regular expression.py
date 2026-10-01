@@ -21,6 +21,15 @@ matches=re.finditer(pattern,text)
 for i in matches:
     print(i.span(),i.group())"""
 
+#can compile patterns
+"""text = "ABACADAEAFAGAHAIAJAKALAMANAOAPAQARASATAUAVAWAXAYAZ"
+c=r"[B-DF-HJ-NP-TV-Z]"
+w=r"[AEIOU]+"
+pattern=c+w+c
+regex=re.compile(pattern)
+print(regex.search(text)) #can search via compiled pattern
+print(regex.search(text,4)) #can also seach from a specific position"""
+
 #to replace
 """pattern=r"[a-z]+at" #([a-z] means any one character from a to z),
                         (+ any characters after a to z is allowed),
@@ -63,6 +72,39 @@ p=r'python'
 m=re.search(p,t)
 print(m.start())
 print(m.end())"""
+
+#regex flags
+import re
+
+# 1. IGNORECASE — capitalization doesn't matter
+text1 = "Python PYTHON python"
+print(re.findall(r"python", text1, re.IGNORECASE))
+
+
+# 2. MULTILINE — ^ and $ apply to each line
+text2 = """Aman
+Riya
+Karan"""
+print(re.findall(r"^.+$", text2, re.MULTILINE))
+
+
+# 3. DOTALL — . can match newline
+text3 = """Start
+middle
+end"""
+print(re.search(r"Start.*end", text3, re.DOTALL).group())
+
+
+# 4. VERBOSE — write a complex regex with spaces/comments
+pattern = re.compile(r"""
+    \d{3}      # area code
+    -
+    \d{3}      # first part
+    -
+    \d{4}      # last part
+""", re.VERBOSE)
+
+print(pattern.fullmatch("987-654-3210"))
 
 #prog to find consecutive alphanumeric item
 """import re
@@ -284,3 +326,23 @@ while (matrix != [""]*n): #to make a printable string from matrix
         matrix[i] = matrix[i][1:len(matrix[i])]
 
 #could also just do newflippedmatrix=zip(*matrix) to get a matrix instead of using loops"""
+
+#overlapping 1 or more vowel btw consonant
+"""import re
+text = "ABACADAEAFAGAHAIAJAKALAMANAOAPAQARASATAUAVAWAXAYAZ"
+c=r"[B-DF-HJ-NP-TV-Z]"
+w=r"[AEIOU]+"
+pattern=c+w+c
+matches=[]
+i=0
+e=len(text)
+while(i<=e-2):
+    m=re.search(pattern,text,i)
+    matches.append(m.group())
+    if i==0:
+        i=i+len(m.group())
+    else:
+        i=i+len(m.group())-1
+
+print(matches)
+print(len(matches))"""

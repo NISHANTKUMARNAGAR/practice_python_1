@@ -58,9 +58,10 @@ print(b.strip()) # removes any white spaces before and after the string
 c="ram$$$$$$$$$$"
 print(c.rstrip("$")) # remove any trailing character
 
-d="ram"
+d="raam"
 print("printing d")
 print(d.replace("a","o"))
+print(d.replace("a","o",1))
 
 e="nishant nagar"
 
@@ -81,6 +82,7 @@ print(e.startswith("nishant"))
 
 print(e.find("nagar"))
 print(e.find("hello"))
+print(e.rfind("hello"))
 
 print(e.index("nagar"))
 #print(e.index("hello"))
@@ -110,3 +112,7 @@ print(e.swapcase()) #swapcase returns a new string with swapped characters so if
 
 h="8eema gothwal"
 print(h.title())
+
+s='ABCDE'
+#print(s.rjust(11,' '))
+#print(' '.join(s))

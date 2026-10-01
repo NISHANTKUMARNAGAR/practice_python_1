@@ -74,6 +74,49 @@ b=[4,5]
 c=[6,7,8]
 print(list(itertools.chain(a,b,c)))"""
 
+#-----------------------------for itertools.islice
+"""#itertools.islice(iterable, start, stop, step)
+for i in itertools.islice(range(100), 10, 20, 2):
+    print(i)"""
+
+#------------------------------for zip_longest
+"""#runs till longer iterable has value unlike zip
+a = [1, 2, 3]
+b = ["a", "b"]
+#itertools.zip_longest(a, b, fillvalue=None)
+for i in list(itertools.zip_longest(a, b, fillvalue="-")):
+    print(i)"""
+
+#------------------------------for compress
+"""data = ["A", "B", "C", "D"]
+selectors = [1, 0, 1, 0]
+print(list(itertools.compress(data, selectors)))"""
+
+#------------------------------for filterfalse
+#gives values for which filter says false
+"""print(list(itertools.filterfalse(lambda x: x > 5, [2, 6, 3, 8, 4])))"""
+
+#------------------------------for takewhile
+"""#allows elements into result till condition is true
+print(list(itertools.takewhile(lambda x: x < 5, [1, 2, 3, 4, 7, 2])))
+#condition false at 7 so it stops and did not check after 7"""
+
+#------------------------------------for dropwhile
+"""#drops while condition is true,opposite to takewhile
+print(list(itertools.dropwhile(lambda x: x < 5, [1, 2, 3, 4, 7, 2])))"""
+
+#--------------------------------------for accumulate
+"""#calculate running sum
+print(list(itertools.accumulate([1, 2, 3, 4])))"""
+
+#------------------------------------for starmap
+"""#applies function to every item in iterable
+data = [(2, 3), (4, 5), (6, 7)]
+def add(a,b):
+    return a+b
+for i in itertools.starmap(add, data):
+    print(i)"""
+
 """   good hackerrank question 1   """
 #find probability of at least one 'a' inside any combination tuple
 """from itertools import combinations
@@ -112,3 +155,45 @@ for currenttuple in (itertools.product(*prodlist)):  #diectly take tuples from p
     sumoflist=0
 
 print(maxrem)"""
+
+#question 3 ---------------------------------------------
+"""
+#Treat all three streams as one continuous transaction stream.
+#Consider only transactions whose amount is not negative.
+#Process the resulting transactions in their original order.
+#From that stream, take only the first 5 transactions.
+#Produce the running total of the transaction amounts.
+#The final output should therefore be an iterator whose values are:
+#120
+#200
+#250
+#450
+#520
+
+import itertools
+online=[("A", 120),("B", 80),("A", 50),]
+store=[("C", 200),("A", 70),("B", 40),]
+refunds=[("A", -30),("C", -50),]
+
+cont=itertools.chain(online,store,refunds)
+onlypost=itertools.filterfalse(lambda x:x[1]<0,cont)
+onlynum=itertools.starmap(lambda x,y:y,onlypost)
+n=1
+for i in itertools.accumulate(onlynum):
+   if n>5:
+        break 
+   print(i)
+   n=n+1
+"""
+
+#question 4----------------------------------------------------------
+"""import itertools
+groups=[[10, 20, 30],[5, 15],[100, 200, 300],]
+#Create a lazy iterator that produces every possible
+# combination of taking one value from each group, 
+# but only keep combinations whose sum is greater than 150.
+#For each remaining combination, output its sum.
+
+allcomb=itertools.product(*groups)
+sumcomb=itertools.starmap(lambda x,y,z:x+y+z,allcomb)
+print(list(itertools.filterfalse(lambda a:a<=150,sumcomb)))"""

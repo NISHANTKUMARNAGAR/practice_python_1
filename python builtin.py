@@ -1,6 +1,10 @@
 #map
 """l=list(map(int,input().split()))
-print(l)"""
+print(l)
+ones=[1,2,3]
+tens=[11,12,13]
+print(list(map(lambda x,y:(x+y),ones,tens)))
+"""
 
 #filter
 """n=[1,2,3,4,5,6]
@@ -12,7 +16,23 @@ iter2=['a','b','c','d','e']
 print(list(zip(iter1,iter2)))
 t=[iter1]+[iter2] #making nested list in iter1,iter2 each containing 1 element ,if put in t by adding it makes 1 list
 print(list(zip(*t))) #unpacking list t by * which contains multiple list that will be input to zip()
-#if any iterable is smaller then zip truncates i.e. removes elemtents ffrom bigger list to match smaller ones size"""
+#if any iterable is smaller then zip truncates i.e. removes elemtents ffrom bigger list to match smaller ones size
+names = ["A", "B", "C"]
+marks = [80, 90, 70]
+print(dict(zip(names, marks)))
+"""
+#zip usage in transpose
+"""matrix = [
+    [3, 7, 2, 9],
+    [5, 1, 8, 4],
+    [6, 3, 7, 2],
+    [9, 5, 1, 6]]
+rev_sort=[sorted(item,key=lambda x:-x) for item in matrix]
+rem_lar=[item[1:] for item in rev_sort]
+final=[]
+for i in list(zip(*rem_lar)):
+    final.extend(i)
+print(final)"""
 
 #enumerate
 """fruits=["apple","banana","mango"]
@@ -21,11 +41,15 @@ for i,val in enumerate(fruits,start=1):
 
 #any
 """test=[-3,-1,4,5]
-print(any(test))"""
+print(any(test))
+any([])   # False #nothing is true
+"""
 
 #all
 """test1=[0,-1,2]
-print(all(test1))"""
+print(all(test1))
+all([])   # True #nothing can be false as its empty
+"""
 
 #------hackerrank built in any/all challange---**
 #without any,all and with loops
@@ -78,8 +102,6 @@ if(all(int(item)>0 for item in l)): #generator function less time and space used
 else:
   print(False)"""
 
-
-
 #sorted
 """t=[('a',1),('a',2),('a',3),('a',4)]
 print(sorted(t))
@@ -117,7 +139,7 @@ for item in sorted_data: #printing sorted by that attribute
 #if dont want to sort by sorted() in above data use bubble sort()
 """for i in range(n):
     for j in range(n - i - 1): #as i increases one element gets sorted each time , n-i and -1 for indexing as j from 0
-        if athedata[j][k] > athedata[j + 1][k]: #only exchange if current than next one(doesnt swap for equal)
+        if athedata[j][k] > athedata[j + 1][k]: #only exchange if current greater than next one(doesnt swap for equal)
             athedata[j], athedata[j + 1] = athedata[j + 1], athedata[j]
 """
 #can also put labda function in place to findattr() i.e.sorted(athedata,key=lambda sublist: sublist[k])
@@ -128,11 +150,17 @@ print(sum([1,2,3],start=10))"""
 
 #min
 """print(min([1,2,3]))
-print(min(['a','b','c']))"""
+print(min(['a','b','c']))
+p=[]
+print(min(p,default=0)) #if iterable empty
+"""
 
 #max
 """print(max([1,2,3]))
-print(max(['a','b','c']))"""
+print(max(['a','b','c']))
+p=[]
+print(max(p,default=0)) #if iterable empty
+"""
 
 #eval
 """p="x**3 + x**2 + x + 1"
@@ -193,3 +221,27 @@ if (value == k):
     print(True)
 else:
     print(False)"""
+
+#len
+"""print(len([1, 2, 3]))
+print(len("hello"))
+print(len({"a": 1, "b": 2})) #for dict it counts keys"""
+
+#isinstance()
+# -- diff then type(x) becoz it will give true if we have class animal and class horse inherits from it
+# then if we do isinstance(object_of_horse,class animal) --> true as i will see does horse belong to animal
+# or not but type(object_of_horse,class animal) --> False as it checks immediate class
+"""x=4
+print(isinstance(x, int))"""
+
+#id()
+"""x=4
+print(id(x))"""
+
+#divmod()
+"""print(divmod(17, 5)) #returns (quotient,remainder)"""
+
+#reduce()
+"""from functools import reduce
+nums=[1,2,3,4,5,6]
+print(reduce(lambda x, y: x + y, nums))"""

@@ -17,7 +17,10 @@ print(type(tstr))"""
 #-----------------------time class
 """from datetime import time
 t=time(14,30,0)
-print(t)"""
+print(t)
+ts=time.time()
+print(time.ctime()) #human readable time
+print(datetime.fromtimestamp(ts))"""
 
 #--------------------------datetime class
 """from datetime import datetime
@@ -69,3 +72,55 @@ print(td)
 print(td.total_seconds())
 # - is normally subtract but here its behaving like a dunder
 # method its altered by operator overloading for datetime object"""
+
+#---------------------------zoneinfo class
+"""from datetime import datetime,timezone,timedelta,date,time
+from zoneinfo import ZoneInfo
+dt2 = datetime.now(ZoneInfo("Asia/Kolkata"))
+print(dt2)
+print(dt2.replace(hour=10,minute=20,second=1))"""
+
+
+#a exercise
+"""timestamps = [
+    "2026-09-20 14:30:00",
+    "2026-09-21 09:15:30",
+    "2026-09-23 18:45:10",
+    "2026-09-26 12:00:00"
+]
+datetime_objects=[]
+from datetime import datetime,timedelta
+for item in timestamps:
+    try:
+        dt=datetime.strptime(item,"%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        print("invalid date and time string")
+    else:
+        datetime_objects.append(dt)
+
+print(datetime_objects)
+dmin=min(datetime_objects)
+print(min(datetime_objects))
+dmax=max(datetime_objects)
+print(max(datetime_objects))
+print(dmax-dmin)
+print([i-datetime_objects[0] for i in datetime_objects])
+for j in datetime_objects:
+    #Saturday, 20 September 2026 - 02:30 PM
+    print(j.strftime("%A, %d %B %Y - %H:%M %p"))
+dtn=datetime.now()
+print(dtn)
+dtiso=dtn.isoformat()
+print(dtiso)
+print(datetime.fromisoformat(dtiso))
+print(dtn.date())
+print(dtn.time())
+print(dtn+timedelta(days=7))
+print(datetime_objects[0]==datetime_objects[3])
+uts=dtn.timestamp()
+print(uts)
+print(datetime.fromtimestamp(uts))
+
+import time
+print(time.time())
+print(time.sleep(5))"""

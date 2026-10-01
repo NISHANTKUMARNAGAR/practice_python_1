@@ -33,6 +33,14 @@ for char, count in sorted_items[:3]:
     print(char, count)
 """
 
+#counter also works on list
+"""words = ["apple", "banana", "apple", "orange",
+         "banana", "apple", "grape", "orange",
+         "banana", "grape", "grape" ]
+
+from collections import Counter
+print(Counter(words).most_common(2))"""
+
 #----------------ordered dictionary(OrderedDict)----------
 """from collections import OrderedDict
 print("This is a ordered dict")
@@ -75,7 +83,7 @@ for i in L:
     #here we dont have to check if that key is in
     #dict or not as defaultdict creates that key
     #gives it a value 0 as value of int() is 0
-    #hence first time we acess it its def value is 0
+    #hence first time we acess it its default value is 0
     #thats why it did not give error
 
 print(intd)

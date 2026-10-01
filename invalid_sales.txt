@@ -1,0 +1,3 @@
+[3, 'A103,Karan,invalid\n', 'sales amount value provided is invalid']
+[4, 'A104,Neha,-3000\n', 'sales amount value provided is negative']
+[6, 'A106,Vikas\n', 'all required fields are not provided']
